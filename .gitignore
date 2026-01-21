@@ -1,0 +1,25 @@
+# ========================
+# Maven build
+# ========================
+target/
+
+# ========================
+# Test execution output
+# ========================
+test-output/
+reports/
+screenshots/
+logs/
+
+# ========================
+# IDE - Eclipse
+# ========================
+.project
+.classpath
+.settings/
+
+# ========================
+# OS files
+# ========================
+.DS_Store
+Thumbs.db
