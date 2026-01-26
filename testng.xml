@@ -3,15 +3,30 @@
 <suite name="IHSM_Suite">
 
 	<listeners>
-		<listener
-			class-name="com.ihsm.university.utilities.ExtentListener" />
+		<listener class-name="com.ihsm.university.utilities.ExtentListener" />
 	</listeners>
-	<test thread-count="5" name="IHSM_UNIVERSITY_chrome">
-		<parameter name="os" value="windows"></parameter>
-		<parameter name="browser" value="chrome"></parameter>
+
+	<!-- Chrome Test -->
+	<test name="IHSM_UNIVERSITY_Chrome">
+		<parameter name="os" value="windows" />
+		<parameter name="browser" value="chrome" />
 		<classes>
 			<class
 				name="com.ihsm.university.testcases.workflow.IHSM_StudentRegistrationFullWorkFlow" />
+
 		</classes>
 	</test>
+
+	<!-- Firefox Test (optional) -->
+	<!--
+    <test name="IHSM_UNIVERSITY_Firefox" thread-count="3">
+        <parameter name="os" value="windows"/>
+        <parameter name="browser" value="firefox"/>
+        <classes>
+            <class
+	name="com.ihsm.university.testcases.workflow.IHSM_StudentRegistrationFullWorkFlow"/>
+        </classes>
+    </test>
+    -->
+
 </suite>

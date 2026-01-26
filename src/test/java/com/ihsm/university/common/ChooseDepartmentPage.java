@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import com.ihsm.university.base.BasePage;
-import com.ihsm.university.pageobjects.basicinformation.BasicInfo_EnrollnmentInformation;
+import com.ihsm.university.pageobjects.student.basicinformation.BasicInfo_EnrollnmentInformation;
 
 public class ChooseDepartmentPage extends BasePage {
 

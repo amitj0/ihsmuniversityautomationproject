@@ -1,33 +1,32 @@
 package com.ihsm.university.testcases.workflow;
 
 import org.testng.annotations.Test;
-
 import com.ihsm.university.base.BaseClass;
-import com.ihsm.university.testcases.flows.student.IHSM_FullAcademicsFlow;
-import com.ihsm.university.testcases.flows.student.IHSM_FullBasicInformationFlow;
-import com.ihsm.university.testcases.flows.student.IHSM_FullDocumentsFlow;
-import com.ihsm.university.testcases.flows.student.IHSM_FullStatusFlow;
+import com.ihsm.university.testcases.flows.student.*;
 
 public class IHSM_StudentRegistrationFullWorkFlow extends BaseClass {
 
-	@Test(description = "Verify Full Student Registration Flow in IHSM University Application")
-	public void verifyStudentRegistrationFullFlow() throws Exception {
-		System.out.println("==== STARTING FULL STUDENT REGISTRATION FLOW ====== ");
+	@Test(groups = "regression", description = "Verify Full Student Registration Flow in IHSM University Application", dataProvider = "studentData", dataProviderClass = StudentFullRegistrationDataProvider.class)
+	public void verifyStudentRegistrationFullFlow(StudentFullRegistrationDataVariables student) throws Exception {
 
-		new IHSM_FullBasicInformationFlow().execute();
-		logger.info("Basic Information filled successfully..........");
+		logger.info("==== STARTING FULL STUDENT REGISTRATION FLOW ======");
 
-		new IHSM_FullDocumentsFlow().execute();
-		logger.info("Documents Information filled successfully..........");
+		// ---------------- Basic Information ----------------
+		new IHSM_FullBasicInformationFlow(getDriver()).execute(student);
+		logger.info("Basic Information filled successfully");
 
-		new IHSM_FullAcademicsFlow().execute();
-		logger.info("Academics Information filled successfully..........");
+		// ---------------- Documents ----------------
+		new IHSM_FullDocumentsFlow(getDriver()).execute(student);
+		logger.info("Documents Information filled successfully");
 
-		new IHSM_FullStatusFlow().execute();
-		logger.info("Status Information filled successfully..........");
+		// ---------------- Academics ----------------
+		new IHSM_FullAcademicsFlow(getDriver()).execute(student);
+		logger.info("Academics Information filled successfully");
 
-		System.out.println("===== FULL STUDENT REGISTRATION FLOW COMPLETED SUCCESSFULLY =====");
+		// ---------------- Status ----------------
+		new IHSM_FullStatusFlow(getDriver()).execute(student);
+		logger.info("Status Information filled successfully");
 
+		logger.info("===== FULL STUDENT REGISTRATION FLOW COMPLETED SUCCESSFULLY =====");
 	}
-
 }

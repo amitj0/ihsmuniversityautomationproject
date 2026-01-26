@@ -15,8 +15,12 @@ import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoField;
 import java.util.Date;
+import java.util.List;
+import java.util.Random;
 
 public class BasePage {
 
@@ -34,45 +38,6 @@ public class BasePage {
 		PageFactory.initElements(driver, this);
 	}
 
-	/*
-	 * protected void enterDate(WebElement dateElement, String dateValue) {
-	 * 
-	 * if (dateValue == null || dateValue.trim().isEmpty()) { throw new
-	 * IllegalArgumentException("Date value cannot be null or empty"); }
-	 * 
-	 * String input = dateValue.trim();
-	 * 
-	 * String[] patterns = { "dd/MM/yyyy", "dd-MM-yyyy", "dd.MM.yyyy", "ddMMyyyy",
-	 * "d/M/yyyy", "d-M-yyyy", "d.M.yyyy", "yyyy-MM-dd" };
-	 * 
-	 * LocalDate parsedDate = null;
-	 * 
-	 * for (String pattern : patterns) { try { DateTimeFormatter formatter =
-	 * DateTimeFormatter.ofPattern(pattern); parsedDate = LocalDate.parse(input,
-	 * formatter); break; } catch (DateTimeParseException ignored) { } }
-	 * 
-	 * if (parsedDate == null) { throw new IllegalArgumentException(
-	 * "Invalid date format: " + dateValue +
-	 * ". Use formats like 12/09/1995, 12-09-1995, 12091995"); }
-	 * 
-	 * // Validation if (parsedDate.isAfter(LocalDate.now()) || parsedDate.getYear()
-	 * < 1900) { throw new IllegalArgumentException("Invalid date value: " +
-	 * parsedDate); }
-	 * 
-	 * String formattedDate = parsedDate.format(DateTimeFormatter.ISO_LOCAL_DATE);
-	 * // yyyy-MM-dd
-	 * 
-	 * // Click + JS injection (Angular safe) safeClick(dateElement);
-	 * 
-	 * JavascriptExecutor js = (JavascriptExecutor) driver; js.executeScript(
-	 * "arguments[0].value = arguments[1];" +
-	 * "arguments[0].dispatchEvent(new Event('input', {bubbles:true}));" +
-	 * "arguments[0].dispatchEvent(new Event('change', {bubbles:true}));",
-	 * dateElement, formattedDate);
-	 * 
-	 * dateElement.sendKeys(Keys.TAB); // trigger blur validation }
-	 */
-
 	protected void enterDate(WebElement dateElement, String dateValue) {
 
 		if (dateValue == null || dateValue.trim().isEmpty()) {
@@ -81,11 +46,13 @@ public class BasePage {
 
 		String input = dateValue.trim();
 
+		LocalDate parsedDate = null;
+
+		// Patterns for 4-digit year
 		String[] patterns = { "dd/MM/yyyy", "dd-MM-yyyy", "dd.MM.yyyy", "ddMMyyyy", "d/M/yyyy", "d-M-yyyy", "d.M.yyyy",
 				"yyyy-MM-dd" };
 
-		LocalDate parsedDate = null;
-
+		// Try 4-digit year patterns first
 		for (String pattern : patterns) {
 			try {
 				parsedDate = LocalDate.parse(input, DateTimeFormatter.ofPattern(pattern));
@@ -94,12 +61,28 @@ public class BasePage {
 			}
 		}
 
+		// If still null, try 2-digit year patterns and interpret as 1900+
 		if (parsedDate == null) {
-			throw new IllegalArgumentException(
-					"Invalid date format: " + dateValue + ". Use dd/MM/yyyy, dd-MM-yyyy, yyyy-MM-dd");
+			String[] shortPatterns = { "dd/MM/yy", "dd-MM-yy", "dd.MM.yy", "d/M/yy", "d-M-yy", "d.M.yy" };
+			for (String pattern : shortPatterns) {
+				try {
+					DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+							.appendPattern(pattern.substring(0, pattern.length() - 2)) // up to day/month separator
+							.appendValueReduced(ChronoField.YEAR, 2, 2, 1900) // 2-digit year offset from 1900
+							.toFormatter();
+					parsedDate = LocalDate.parse(input, formatter);
+					break;
+				} catch (DateTimeParseException ignored) {
+				}
+			}
 		}
 
-		// ONLY minimal validation
+		if (parsedDate == null) {
+			throw new IllegalArgumentException(
+					"Invalid date format: " + dateValue + ". Use dd/MM/yyyy, dd-MM-yyyy, dd/MM/yy, etc.");
+		}
+
+		// Minimal validation
 		if (parsedDate.getYear() < 1900) {
 			throw new IllegalArgumentException("Invalid year: " + parsedDate.getYear());
 		}
@@ -127,18 +110,24 @@ public class BasePage {
 
 	protected void safeClick(WebElement element) {
 		try {
+			// Always clear JS alert before clicking
+			handleAlertIfPresent();
+
+			wait.until(ExpectedConditions.elementToBeClickable(element)).click();
+
+		} catch (UnhandledAlertException e) {
+			// Alert appeared DURING click
 			handleAlertIfPresent();
 			wait.until(ExpectedConditions.elementToBeClickable(element)).click();
+
 		} catch (StaleElementReferenceException e) {
 			reinitializePageElements();
-			clickWithFallback(element);
+			wait.until(ExpectedConditions.elementToBeClickable(element)).click();
+
 		} catch (ElementClickInterceptedException e) {
-			try {
-				scrollToCenter(element);
-				element.click();
-			} catch (Exception ex) {
-				jsClick(element);
-			}
+			scrollToCenter(element);
+			jsClick(element);
+
 		} catch (Exception e) {
 			jsClick(element);
 		}
@@ -165,14 +154,15 @@ public class BasePage {
 
 	public void handleModalOk(WebElement okButton) {
 		try {
-			WebDriverWait modalWait = new WebDriverWait(driver, Duration.ofSeconds(5));
+			// Ensure no JS alert is blocking
+			handleAlertIfPresent();
 
+			WebDriverWait modalWait = new WebDriverWait(driver, Duration.ofSeconds(5));
 			WebElement ok = modalWait.until(ExpectedConditions.elementToBeClickable(okButton));
-//			highlightElement(ok);
 			ok.click();
 
-			// CRITICAL: wait for modal + backdrop to disappear
-			modalWait.until(driver -> driver.findElements(By.cssSelector(".modal.show")).isEmpty());
+			// Wait until modal disappears
+			modalWait.until(d -> d.findElements(By.cssSelector(".modal.show")).isEmpty());
 
 		} catch (TimeoutException e) {
 			logger.debug("Modal not present or already closed");
@@ -231,27 +221,6 @@ public class BasePage {
 		}
 	}
 
-	// ====================== Alert Handling ======================
-	@Deprecated
-	protected Alert waitForAlert() {
-		return wait.until(ExpectedConditions.alertIsPresent());
-	}
-
-	@Deprecated
-	protected void acceptAlert() {
-		waitForAlert().accept();
-	}
-
-	@Deprecated
-	protected void dismissAlert() {
-		waitForAlert().dismiss();
-	}
-
-	@Deprecated
-	protected String getAlertText() {
-		return waitForAlert().getText().trim();
-	}
-
 	protected void waitForModalToClose() {
 		try {
 			wait.until(ExpectedConditions
@@ -263,12 +232,15 @@ public class BasePage {
 
 	protected boolean handleAlertIfPresent() {
 		try {
-			Alert alert = driver.switchTo().alert();
+			WebDriverWait alertWait = new WebDriverWait(driver, Duration.ofSeconds(1));
+			Alert alert = alertWait.until(ExpectedConditions.alertIsPresent());
+
 			logger.warn("Browser alert detected: {}", alert.getText());
 			alert.accept();
 			return true;
-		} catch (NoAlertPresentException e) {
-			return false;
+
+		} catch (TimeoutException e) {
+			return false; // No alert appeared
 		}
 	}
 
@@ -295,7 +267,7 @@ public class BasePage {
 				JavascriptExecutor js = (JavascriptExecutor) driver;
 				String originalStyle = element.getAttribute("style");
 
-				for (int i = 0; i < 1; i++) {
+				for (int i = 0; i < 2; i++) {
 					js.executeScript("arguments[0].setAttribute('style','border:3px solid black; background: yellow;')",
 							element);
 					Thread.sleep(200);
@@ -308,6 +280,18 @@ public class BasePage {
 			logger.debug("Unable to highlight element", e);
 			Thread.currentThread().interrupt();
 		}
+	}
+
+	// Random Image picker
+	public static String getRandomImage() {
+		File folder = new File("src/test/resources/images");
+		File[] files = folder.listFiles((dir, name) -> name.endsWith(".png") || name.endsWith(".jpg"));
+
+		if (files != null && files.length > 0) {
+			Random rand = new Random();
+			return files[rand.nextInt(files.length)].getName(); // return a random image file name
+		}
+		return "default.png"; // fallback image
 	}
 
 	private void reinitializePageElements() {
@@ -389,6 +373,38 @@ public class BasePage {
 		} catch (TimeoutException e) {
 			logger.info("Element not visible/clickable, skipping");
 		}
+	}
+
+	public void selectDropdownOption(WebElement dropdown, String optionText) {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+		int attempts = 0;
+
+		while (attempts < 3) { // Retry to handle stale elements
+			try {
+				// Open the dropdown
+				safeClick(dropdown);
+
+				// Wait for options to appear
+				List<WebElement> options = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(
+						By.xpath("//div[contains(@class,'ng-dropdown-panel')]//div[@role='option']")));
+
+				// Loop through options and click the matching one
+				for (WebElement option : options) {
+					if (option.getText().trim().equalsIgnoreCase(optionText)) {
+						safeClick(option);
+						return;
+					}
+				}
+
+				throw new NoSuchElementException("Option not found: " + optionText);
+
+			} catch (StaleElementReferenceException e) {
+				// Retry if element became stale
+				attempts++;
+			}
+		}
+
+		throw new StaleElementReferenceException("Dropdown element is stale after multiple attempts: " + dropdown);
 	}
 
 	// Utility method to capture screenshot

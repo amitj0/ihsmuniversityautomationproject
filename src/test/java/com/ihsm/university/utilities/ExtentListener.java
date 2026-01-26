@@ -7,13 +7,13 @@ import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
 import com.ihsm.university.base.BaseClass;
 
+import org.openqa.selenium.logging.*;
 import org.testng.*;
 
-import java.awt.Desktop;
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
 
 public class ExtentListener implements ITestListener {
 
@@ -21,29 +21,32 @@ public class ExtentListener implements ITestListener {
 	private static ThreadLocal<ExtentTest> test = new ThreadLocal<>();
 	private static String reportPath;
 
+	// ================= SUITE START =================
 	@Override
-	public synchronized void onStart(ITestContext context) {
-		if (extent == null) {
-			String timeStamp = new SimpleDateFormat("yyyy.MM.dd_HH.mm.ss").format(new Date());
-			String reportName = "IHSM_University_Report_" + timeStamp + ".html";
-			reportPath = System.getProperty("user.dir") + "/reports/" + reportName;
+	public void onStart(ITestContext context) {
 
-			ExtentSparkReporter spark = new ExtentSparkReporter(reportPath);
-			spark.config().setDocumentTitle("IHSM University Automation Report");
-			spark.config().setReportName("Regression Test Report");
-			spark.config().setTheme(Theme.DARK);
-			spark.config().setTimeStampFormat("EEEE, MMMM dd, yyyy, hh:mm a");
+		String timeStamp = new SimpleDateFormat("yyyy.MM.dd_HH.mm.ss").format(new Date());
+		String reportName = "IHSM_University_Report_" + timeStamp + ".html";
+		reportPath = System.getProperty("user.dir") + "/reports/" + reportName;
 
-			extent = new ExtentReports();
-			extent.attachReporter(spark);
-			extent.setSystemInfo("Project", "IHSM University");
-			extent.setSystemInfo("Environment", "QA");
-			extent.setSystemInfo("User", System.getProperty("user.name"));
-		}
+		ExtentSparkReporter spark = new ExtentSparkReporter(reportPath);
+		spark.config().setDocumentTitle("IHSM University Automation Report");
+		spark.config().setReportName("Regression Test Report");
+		spark.config().setTheme(Theme.DARK);
+
+		extent = new ExtentReports();
+		extent.attachReporter(spark);
+
+		extent.setSystemInfo("Project", "IHSM University");
+		extent.setSystemInfo("Environment", "QA");
+		extent.setSystemInfo("Browser", "Chrome");
+		extent.setSystemInfo("User", System.getProperty("user.name"));
 	}
 
+	// ================= TEST START =================
 	@Override
 	public void onTestStart(ITestResult result) {
+
 		String testName = result.getMethod().getDescription();
 		if (testName == null || testName.isEmpty()) {
 			testName = result.getMethod().getMethodName();
@@ -51,47 +54,88 @@ public class ExtentListener implements ITestListener {
 
 		ExtentTest extentTest = extent.createTest(testName);
 		extentTest.assignCategory(result.getMethod().getGroups());
+		extentTest.assignAuthor("Automation Team"); // 👈 AUTHOR ADDED
+
 		test.set(extentTest);
 	}
 
+	// ================= PASS =================
 	@Override
 	public void onTestSuccess(ITestResult result) {
-		test.get().log(Status.PASS, MarkupHelper.createLabel("PASSED: " + result.getName(), ExtentColor.GREEN));
+
+		TestResultSummary.passed++;
+
+		test.get().log(Status.PASS, MarkupHelper.createLabel("TEST PASSED", ExtentColor.GREEN));
 	}
 
+	// ================= FAIL =================
 	@Override
 	public void onTestFailure(ITestResult result) {
-		test.get().log(Status.FAIL, MarkupHelper.createLabel("FAILED: " + result.getName(), ExtentColor.RED));
+
+		TestResultSummary.failed++;
+
+		test.get().log(Status.FAIL, MarkupHelper.createLabel("TEST FAILED", ExtentColor.RED));
+
 		test.get().fail(result.getThrowable());
 
+		// Browser Console Errors
 		try {
-			BaseClass base = new BaseClass();
-			String screenshotPath = base.captureScreenshot(result.getName());
+			if (BaseClass.getDriver() != null) {
 
-			test.get().addScreenCaptureFromPath("../screenshots/" + new File(screenshotPath).getName());
+				LogEntries logs = BaseClass.getDriver().manage().logs().get(LogType.BROWSER);
+
+				StringBuilder consoleErrors = new StringBuilder();
+
+				for (LogEntry entry : logs) {
+					if (entry.getLevel() == Level.SEVERE) {
+						consoleErrors.append(entry.getMessage()).append("\n");
+					}
+				}
+
+				if (consoleErrors.length() > 0) {
+					test.get().fail("🚨 Browser Console Errors:\n" + consoleErrors);
+				}
+			}
 		} catch (Exception e) {
-			test.get().log(Status.WARNING, "Screenshot capture failed: " + e.getMessage());
+			test.get().warning("Unable to fetch browser logs");
+		}
+
+		// Screenshot
+		try {
+			if (BaseClass.getDriver() != null) {
+				String screenshotPath = BaseClass.captureScreenshot(result.getName());
+
+				test.get().addScreenCaptureFromPath("../screenshots/" + new File(screenshotPath).getName());
+			}
+		} catch (Exception e) {
+			test.get().warning("Screenshot capture failed");
 		}
 	}
 
+	// ================= SKIP =================
 	@Override
 	public void onTestSkipped(ITestResult result) {
-		test.get().log(Status.SKIP, MarkupHelper.createLabel("SKIPPED: " + result.getName(), ExtentColor.YELLOW));
+
+		TestResultSummary.skipped++;
+
+		test.get().log(Status.SKIP, MarkupHelper.createLabel("TEST SKIPPED", ExtentColor.YELLOW));
 	}
 
+	// ================= FINISH =================
 	@Override
 	public void onFinish(ITestContext context) {
+
 		if (extent != null) {
 			extent.flush();
 		}
 
+		// Email Report
 		try {
-			File reportFile = new File(reportPath);
-			if (Desktop.isDesktopSupported() && reportFile.exists()) {
-				Desktop.getDesktop().browse(reportFile.toURI());
+			if (reportPath != null && new File(reportPath).exists()) {
+				EmailUtils.sendMail(reportPath);
 			}
-		} catch (IOException e) {
-			System.out.println("Could not auto-open report: " + e.getMessage());
+		} catch (Exception e) {
+			System.out.println("Email skipped");
 		}
 	}
 }

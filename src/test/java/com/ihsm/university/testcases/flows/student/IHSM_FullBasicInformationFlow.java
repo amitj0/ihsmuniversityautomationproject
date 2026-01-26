@@ -1,105 +1,90 @@
 package com.ihsm.university.testcases.flows.student;
 
-import org.testng.annotations.Test;
-
+import org.openqa.selenium.WebDriver;
 import com.ihsm.university.base.BaseClass;
-import com.ihsm.university.pageobjects.basicinformation.BasicInfo_Biometrics;
-import com.ihsm.university.pageobjects.basicinformation.BasicInfo_EnrollnmentInformation;
-import com.ihsm.university.pageobjects.basicinformation.BasicInfo_FamilyInformation;
-import com.ihsm.university.pageobjects.basicinformation.BasicInfo_GeneralInformation_Prerights;
-import com.ihsm.university.pageobjects.basicinformation.BasicInfo_GeneralInformation_SocialStatus;
-import com.ihsm.university.pageobjects.basicinformation.BasicInfo_GeneralInformation_SocialWorkLocation;
-import com.ihsm.university.pageobjects.basicinformation.BasicInfo_LanguageInformation;
-import com.ihsm.university.pageobjects.basicinformation.BasicInfo_MedicalInforamtion_AtPoly;
-import com.ihsm.university.pageobjects.basicinformation.BasicInfo_MedicalInformation_Disability;
-import com.ihsm.university.pageobjects.basicinformation.BasicInfo_MedicalInformation_Insurance;
-import com.ihsm.university.pageobjects.basicinformation.BasicInfo_MedicalInformation_Vaccination;
-import com.ihsm.university.pageobjects.basicinformation.BasicInfo_PersonalInformation;
+import com.ihsm.university.pageobjects.student.basicinformation.*;
 
 public class IHSM_FullBasicInformationFlow extends BaseClass {
 
-	@Test
-	public void execute() {
+	private WebDriver driver;
+
+	public IHSM_FullBasicInformationFlow(WebDriver driver) {
+		this.driver = driver;
+	}
+
+	public void execute(StudentFullRegistrationDataVariables student) {
 		logger.info("===== STARTING FULL BASIC INFORMATION FLOW =====");
 
-		logger.info("Filling Enrollment Information...");
-		// ------------------ ENROLLMENT INFORMATION ------------------
+		// ---------------- Enrollment Information ----------------
 		BasicInfo_EnrollnmentInformation enrollInfo = new BasicInfo_EnrollnmentInformation(getDriver());
-		enrollInfo.fillEnrollmentInformation("Term-1", "CENTRAL / Bachelor / MBBS", "1", "1", "784512", "Rohan",
-				"Singh", "Kumar", "Male", "01/01/2000", "India", "Haryana (HR)", "9090909090", "rohan@gmail.com",
-				"India");
+		enrollInfo.fillEnrollmentInformation(student.term, student.course, student.year, student.semester, student.pin,
+				student.firstName, student.middleName, student.lastName, student.gender, student.dob, student.country,
+				student.state, student.mobile, student.email, student.nationality);
 		logger.info("Enrollment Information submitted successfully");
 
-		logger.info("Filling Personal Information...");
-		// ------------------ PERSONAL INFORMATION ------------------
+		// ---------------- Personal Information ----------------
 		BasicInfo_PersonalInformation personalInfo = new BasicInfo_PersonalInformation(getDriver());
-		personalInfo.fillPersonalInformationForm("Амит", "Джангра", "Panipat", "Single", "India");
+		personalInfo.fillPersonalInformationForm(student.firstName2, student.lastName2, student.city,
+				student.maritalStatus, student.country2);
 		logger.info("Personal Information submitted successfully");
 
-		logger.info("Filling Biometrics Information...");
-		// ------------------ BIOMETRICS ------------------
+		// ---------------- Biometrics ----------------
 		BasicInfo_Biometrics biometrics = new BasicInfo_Biometrics(getDriver());
-		biometrics.fillBiometricsInfo(getTestDataPath("male.png"));
+		biometrics.fillBiometricsInfo(getTestDataPath(student.biometricsImage));
 		logger.info("Biometrics Information submitted successfully");
 
-		logger.info("Filling Family Information...");
-		// ------------------ FAMILY INFORMATION ------------------
+		// ---------------- Family Information ----------------
 		BasicInfo_FamilyInformation familyInfo = new BasicInfo_FamilyInformation(getDriver());
-		familyInfo.fillFamilyInformation("Father", "Mukesh Kumar", "01/01/1970", "Business", "91", "454545245", "No",
-				"India", "Haryana (HR)", "Panipat", "India");
+		familyInfo.fillFamilyInformation(student.relation, student.familyName, student.familyDob, student.occupation,
+				student.countryCode, student.phone, student.dependent, student.famCountry, student.famState,
+				student.famCity, student.famNationality);
 		logger.info("Family Information submitted successfully");
 
-		logger.info("Filling Language Information...");
-		// ------------------ LANGUAGE INFORMATION ------------------
+		// ---------------- Language Information ----------------
 		BasicInfo_LanguageInformation languageInfo = new BasicInfo_LanguageInformation(getDriver());
-		languageInfo.fillLanguageInformationForm("English", "B2");
+		languageInfo.fillLanguageInformationForm(student.language, student.languageLevel);
 		logger.info("Language Information submitted successfully");
 
-		logger.info("Filling General Pre Rights Information...");
-		// ------------------ GENERAL INFORMATION ------------------
+		// ---------------- Pre Rights Information ----------------
 		BasicInfo_GeneralInformation_Prerights prerightsInfo = new BasicInfo_GeneralInformation_Prerights(getDriver());
-		prerightsInfo.fillPreferRightsInformation("rights", getTestDataPath("male.png"));
-		logger.info("General Pre Rights Information submitted successfully");
+		prerightsInfo.fillPreferRightsInformation(student.preRights, getTestDataPath(student.preRightsImage));
+		logger.info("Pre Rights Information submitted successfully");
 
-		logger.info("Filling General Social Status Information...");
+		// ---------------- Social Status ----------------
 		BasicInfo_GeneralInformation_SocialStatus socialInfo = new BasicInfo_GeneralInformation_SocialStatus(
 				getDriver());
-		socialInfo.fillSocialStatusForm("value", getTestDataPath("male.png"));
-		logger.info("General Social Status Information submitted successfully");
+		socialInfo.fillSocialStatusForm(student.socialStatus, getTestDataPath(student.socialStatusImage));
+		logger.info("Social Status Information submitted successfully");
 
-		logger.info("Filling General Student Work Location Information...");
+		// ---------------- Work Location ----------------
 		BasicInfo_GeneralInformation_SocialWorkLocation socialWorkInfo = new BasicInfo_GeneralInformation_SocialWorkLocation(
 				getDriver());
-		socialWorkInfo.fillSocialWorkLocationDetails(getTestDataPath("male.png"));
-		logger.info("General Student Work Location Information submitted successfully");
+		socialWorkInfo.fillSocialWorkLocationDetails(getTestDataPath(student.workLocationImage));
+		logger.info("Work Location Information submitted successfully");
 
-		logger.info("General Information submitted successfully");
-
-		logger.info("Filling Medical Information...");
-		// ------------------ MEDICAL INFORMATION ------------------
+		// ---------------- Medical - Vaccination ----------------
 		BasicInfo_MedicalInformation_Vaccination medicalInfo = new BasicInfo_MedicalInformation_Vaccination(
 				getDriver());
-		medicalInfo.fillVaccinationInfo("dose 1", "3", "01/01/2026", "562", "Thank You", getTestDataPath("male.png"));
-		logger.info("Medical Information submitted successfully");
+		medicalInfo.fillVaccinationInfo(student.vacDose, student.vacNumber, student.vacDate, student.vacCode,
+				student.vacRemarks, getTestDataPath(student.vacImage));
 
-		logger.info("Filling Medical Information Poly details..............");
+		// ---------------- Medical - At Poly ----------------
 		BasicInfo_MedicalInforamtion_AtPoly medicalPolyInfo = new BasicInfo_MedicalInforamtion_AtPoly(getDriver());
-		medicalPolyInfo.fillAtPolyMedicalInformation("01/02/2026", "Poly type", getTestDataPath("male.png"));
-		logger.info("Medical Information Poly details filled successfully..............");
+		medicalPolyInfo.fillAtPolyMedicalInformation(student.polyDate, student.polyType,
+				getTestDataPath(student.polyImage));
 
-		logger.info("Filling Medical Insurance details..............");
+		// ---------------- Medical - Insurance ----------------
 		BasicInfo_MedicalInformation_Insurance medicalInsuranceInfo = new BasicInfo_MedicalInformation_Insurance(
 				getDriver());
-		medicalInsuranceInfo.fillInsuranceInformation("01/01/2026", "01/01/2027", getTestDataPath("male.png"));
-		logger.info("Medical Insurance details filled successfully..............");
+		medicalInsuranceInfo.fillInsuranceInformation(student.insStartDate, student.insEnd,
+				getTestDataPath(student.insImage));
 
-		logger.info("Filling Medical Disability details..............");
+		// ---------------- Medical - Disability ----------------
 		BasicInfo_MedicalInformation_Disability medicalDisabilityInfo = new BasicInfo_MedicalInformation_Disability(
 				getDriver());
-		medicalDisabilityInfo.fillDisabilityForm("adhd", "5611", "01/01/2026", getTestDataPath("male.png"));
-		logger.info("Medical Disability details filled successfully..............");
+		medicalDisabilityInfo.fillDisabilityForm(student.disType, student.disCode, student.disDate,
+				getTestDataPath(student.disImage));
 
 		logger.info("===== FULL BASIC INFORMATION FLOW COMPLETED =====");
 	}
-
 }
