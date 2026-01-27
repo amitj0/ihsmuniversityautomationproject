@@ -87,8 +87,19 @@ public class ExtentListener implements ITestListener {
 				StringBuilder consoleErrors = new StringBuilder();
 
 				for (LogEntry entry : logs) {
+
+					String message = entry.getMessage();
+
+					// --------- IGNORE NOISE ----------
+					if (message.contains("404") || message.contains("dtOptions") || message.contains("favicon")
+							|| message.contains("logo.png") || message.contains("noimage.png")
+							|| message.contains("brand-logo") || message.contains("polyfills")
+							|| message.contains("Both the table and dtOptions")) {
+						continue;
+					}
+
 					if (entry.getLevel() == Level.SEVERE) {
-						consoleErrors.append(entry.getMessage()).append("\n");
+						consoleErrors.append(message).append("\n");
 					}
 				}
 
