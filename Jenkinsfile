@@ -117,39 +117,72 @@ TEST TYPE : ${params.TEST_TYPE}
      ***********************/
     post {
 
-        always {
-            junit 'target/surefire-reports/*.xml'
-            archiveArtifacts artifacts: 'reports/*.html', allowEmptyArchive: true
-        }
-
-        success {
-            emailext(
-                to: 'ajangra@ismedusoftsol.com',
-                subject: "✅ ${PROJECT} | SUCCESS | Build #${BUILD_NUMBER}",
-                mimeType: 'text/html',
-                body: """
-                <h2 style="color:green;">Execution Successful</h2>
-                <p><b>Environment:</b> ${params.ENV}</p>
-                <p><b>Browser:</b> ${params.BROWSER}</p>
-                <p><b>Suite:</b> ${params.TEST_TYPE}</p>
-                <p><a href="${BUILD_URL}">Open Jenkins Build</a></p>
-                """
-            )
-        }
-
-        failure {
-            emailext(
-                to: 'ajangra@ismedusoftsol.com',
-                subject: "❌ ${PROJECT} | FAILED | Build #${BUILD_NUMBER}",
-                mimeType: 'text/html',
-                body: """
-                <h2 style="color:red;">Execution Failed</h2>
-                <p><b>Environment:</b> ${params.ENV}</p>
-                <p><b>Browser:</b> ${params.BROWSER}</p>
-                <p><b>Suite:</b> ${params.TEST_TYPE}</p>
-                <p><a href="${BUILD_URL}">Open Jenkins Build</a></p>
-                """
-            )
-        }
+    always {
+        junit 'target/surefire-reports/*.xml'
+        archiveArtifacts artifacts: 'reports/*.html', allowEmptyArchive: true
     }
+
+    success {
+        emailext(
+            to: 'ajangra@ismedusoftsol.com',
+            subject: "✅ ${PROJECT} | SUCCESS | Build #${BUILD_NUMBER}",
+            mimeType: 'text/html',
+
+            attachLog: true,
+            attachmentsPattern: 'reports/*.html',
+
+            body: """
+            <h2 style="color:green;">Execution Successful</h2>
+
+            <p><b>Project:</b> ${PROJECT}</p>
+            <p><b>Environment:</b> ${params.ENV}</p>
+            <p><b>Browser:</b> ${params.BROWSER}</p>
+            <p><b>Suite:</b> ${params.TEST_TYPE}</p>
+
+            <p>
+              <a href="${BUILD_URL}">🔗 Open Jenkins Build</a><br>
+              <a href="${BUILD_URL}HTML_20Report/">📊 Open Extent Report</a>
+            </p>
+
+            <p><b>Attachments:</b></p>
+            <ul>
+              <li>Console Log</li>
+              <li>Extent HTML Report</li>
+            </ul>
+            """
+        )
+    }
+
+    failure {
+        emailext(
+            to: 'ajangra@ismedusoftsol.com',
+            subject: "❌ ${PROJECT} | FAILED | Build #${BUILD_NUMBER}",
+            mimeType: 'text/html',
+
+            attachLog: true,
+            attachmentsPattern: 'reports/*.html',
+
+            body: """
+            <h2 style="color:red;">Execution Failed</h2>
+
+            <p><b>Project:</b> ${PROJECT}</p>
+            <p><b>Environment:</b> ${params.ENV}</p>
+            <p><b>Browser:</b> ${params.BROWSER}</p>
+            <p><b>Suite:</b> ${params.TEST_TYPE}</p>
+
+            <p>
+              <a href="${BUILD_URL}">🔗 Open Jenkins Build</a><br>
+              <a href="${BUILD_URL}HTML_20Report/">📊 Open Extent Report</a>
+            </p>
+
+            <p><b>Attachments:</b></p>
+            <ul>
+              <li>Console Log</li>
+              <li>Extent HTML Report</li>
+            </ul>
+            """
+        )
+    }
+}
+
 }
