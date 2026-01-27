@@ -1,12 +1,81 @@
 pipeline {
+
+    /***********************
+     * GLOBAL CONFIG
+     ***********************/
     agent any
 
+    options {
+        timestamps()
+        ansiColor('xterm')
+        buildDiscarder(logRotator(numToKeepStr: '30'))
+        disableConcurrentBuilds()
+        skipDefaultCheckout()
+    }
+
+    /***********************
+     * NIGHTLY TRIGGER
+     ***********************/
+    triggers {
+        cron('H 1 * * *')     // Runs nightly ~1 AM
+    }
+
+    /***********************
+     * TOOLS
+     ***********************/
     tools {
         maven 'MAVEN1'
     }
 
+    /***********************
+     * GLOBAL VARIABLES
+     ***********************/
+    environment {
+        PROJECT     = "IHSM UNIVERSITY AUTOMATION"
+        REPORT_NAME = "IHSM University Extent Report"
+    }
+
+    /***********************
+     * USER PARAMETERS
+     ***********************/
+    parameters {
+
+        choice(name: 'ENV',
+               choices: ['QA', 'UAT', 'PROD'],
+               description: '🌍 Target Environment')
+
+        choice(name: 'BROWSER',
+               choices: ['chrome', 'edge', 'firefox'],
+               description: '🌐 Browser')
+
+        choice(name: 'TEST_TYPE',
+               choices: ['Smoke', 'Regression'],
+               description: '🧪 Test Suite')
+    }
+
+    /***********************
+     * PIPELINE STAGES
+     ***********************/
     stages {
-        stage('Checkout') {
+
+        stage('🎯 INITIALIZE') {
+            steps {
+                echo """
+=================================================
+PROJECT   : ${PROJECT}
+ENV       : ${params.ENV}
+BROWSER   : ${params.BROWSER}
+TEST TYPE : ${params.TEST_TYPE}
+=================================================
+"""
+            }
+        }
+
+        stage('🧹 CLEAN WORKSPACE') {
+            steps { deleteDir() }
+        }
+
+        stage('📥 CHECKOUT CODE') {
             steps {
                 git branch: 'master',
                     credentialsId: 'github-pat',
@@ -14,24 +83,29 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('🔧 BUILD PROJECT') {
             steps {
-                bat 'mvn clean compile'
+                bat 'mvn -q clean compile'
             }
         }
 
-        stage('Test') {
+        stage('🚀 EXECUTE TESTS') {
             steps {
-                bat 'mvn test'
+                bat """
+                mvn test ^
+                -Dbrowser=${params.BROWSER} ^
+                -Denv=${params.ENV} ^
+                -Dsuite=${params.TEST_TYPE}
+                """
             }
         }
 
-        stage('Publish Reports') {
+        stage('📊 PUBLISH EXTENT REPORT') {
             steps {
                 publishHTML(target: [
                     reportDir: 'reports',
                     reportFiles: '*.html',
-                    reportName: 'IHSM University Report',
+                    reportName: REPORT_NAME,
                     keepAll: true,
                     alwaysLinkToLastBuild: true
                 ])
@@ -39,46 +113,42 @@ pipeline {
         }
     }
 
+    /***********************
+     * POST ACTIONS
+     ***********************/
     post {
+
         always {
+            junit 'target/surefire-reports/*.xml'
             archiveArtifacts artifacts: 'reports/*.html', allowEmptyArchive: true
-            junit testResults: 'target/surefire-reports/*.xml', allowEmptyResults: true
         }
 
         success {
-            emailext (
+            emailext(
                 to: 'ajangra@ismedusoftsol.com',
-                subject: "SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                subject: "✅ ${PROJECT} | SUCCESS | Build #${BUILD_NUMBER}",
                 mimeType: 'text/html',
-                attachLog: true,
                 body: """
-                <html><body>
-                <p>Hello Team,</p>
-                <p><span style="color:green;"><b>SUCCESS</b></span> - Build completed successfully!</p>
-                <p><b>Job:</b> ${env.JOB_NAME} #${env.BUILD_NUMBER}</p>
-                <p><b>URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
-                <p><b>IHSM Report:</b>
-                <a href="${env.BUILD_URL}IHSM%20University%20Report/">Click here</a></p>
-                <p>Regards,<br/>Automation Team</p>
-                </body></html>
+                <h2 style="color:green;">Execution Successful</h2>
+                <p><b>Environment:</b> ${params.ENV}</p>
+                <p><b>Browser:</b> ${params.BROWSER}</p>
+                <p><b>Suite:</b> ${params.TEST_TYPE}</p>
+                <p><a href="${BUILD_URL}">Open Jenkins Build</a></p>
                 """
             )
         }
 
         failure {
-            emailext (
+            emailext(
                 to: 'ajangra@ismedusoftsol.com',
-                subject: "FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                subject: "❌ ${PROJECT} | FAILED | Build #${BUILD_NUMBER}",
                 mimeType: 'text/html',
-                attachLog: true,
                 body: """
-                <html><body>
-                <p>Hello Team,</p>
-                <p><b style="color:red;">FAILED</b> - Build failed. Please check immediately.</p>
-                <p><b>Job:</b> ${env.JOB_NAME} #${env.BUILD_NUMBER}</p>
-                <p><b>URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
-                <p>Regards,<br/>Automation Team</p>
-                </body></html>
+                <h2 style="color:red;">Execution Failed</h2>
+                <p><b>Environment:</b> ${params.ENV}</p>
+                <p><b>Browser:</b> ${params.BROWSER}</p>
+                <p><b>Suite:</b> ${params.TEST_TYPE}</p>
+                <p><a href="${BUILD_URL}">Open Jenkins Build</a></p>
                 """
             )
         }
