@@ -48,7 +48,7 @@ pipeline {
                description: '🌐 Browser')
 
         choice(name: 'TEST_TYPE',
-               choices: ['Smoke', 'Regression'],
+               choices: ['Regression', 'Smoke'],
                description: '🧪 Test Suite')
     }
 
