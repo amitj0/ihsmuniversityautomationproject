@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import com.ihsm.university.base.BasePage;
+import com.ihsm.university.pageobjects.employee.designation.Designation_EmploymentRights;
 
 public class BasicInfo_BiometricsInformation extends BasePage {
 
@@ -53,11 +54,13 @@ public class BasicInfo_BiometricsInformation extends BasePage {
 	}
 
 	// fill biometrics info here
-	public void fillBiometricsInfo(String filePath) {
+	public Designation_EmploymentRights fillBiometricsInfo(String filePath) {
 		addBiometricsInfoBtn();
 		uploadBiometricFile(filePath);
 		saveBiometricsInfoBtn();
 		okButtonSuccessPopup();
+		
+		return new Designation_EmploymentRights(driver);
 
 	}
 

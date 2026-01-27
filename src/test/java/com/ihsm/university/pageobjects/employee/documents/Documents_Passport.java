@@ -111,8 +111,8 @@ public class Documents_Passport extends BasePage {
 			// Save
 			safeClick(savePassportTypeButton);
 
-			// Ok
-			safeClick(okButtonSuccessPopup);
+			// Ok -> Not add
+//			safeClick(okButtonSuccessPopup);
 
 			// Reopen dropdown
 			safeClick(passportTypeDropdownField);
@@ -162,8 +162,8 @@ public class Documents_Passport extends BasePage {
 			// Save
 			safeClick(savePassportTypeButton);
 
-			// Ok
-			safeClick(okButtonSuccessPopup);
+			// Ok -> Not add
+//			safeClick(okButtonSuccessPopup);
 
 			// Reopen dropdown
 			safeClick(countryIssueByDropdownField);
@@ -225,8 +225,8 @@ public class Documents_Passport extends BasePage {
 			// Save
 			safeClick(savePassportTypeButton);
 
-			// Ok
-			safeClick(okButtonSuccessPopup);
+			// Ok -> Not add
+//			safeClick(okButtonSuccessPopup);
 
 			// Reopen dropdown
 			safeClick(issuePlaceDropdownField);
@@ -285,6 +285,8 @@ public class Documents_Passport extends BasePage {
 		enterExpiryDate(expiryDate);
 		savePassportBtn();
 		okButtonSuccessPopup();
+
+		// return here
 	}
 
 }

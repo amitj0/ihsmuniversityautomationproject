@@ -11,21 +11,21 @@ public class StudentFullRegistrationDataProvider {
 	@DataProvider(name = "studentData", parallel = true)
 	public static Object[][] getStudentData() {
 		try {
-			// 1️⃣ Load Excel
+			// 1️ Load Excel
 			ExcelUtility excel = new ExcelUtility("src/test/resources/student_registration.xlsx");
 
-			// 2️⃣ (Optional) Beautify header only once
+			// 2️ (Optional) Beautify header only once
 			excel.formatHeaderRow(SHEET_NAME, 120);
 			excel.autoFitColumns(SHEET_NAME, 120);
 
-			// 3️⃣ Read all Excel data
+			// 3️ Read all Excel data
 			Object[][] rawData = excel.getSheetData(SHEET_NAME);
 
 			if (rawData.length == 0) {
 				throw new RuntimeException("❌ No data found in Excel sheet: " + SHEET_NAME);
 			}
 
-			// 4️⃣ Map each row to StudentFullRegistrationDataVariables object
+			// 4️ Map each row to StudentFullRegistrationDataVariables object
 			Object[][] finalData = new Object[rawData.length][1];
 
 			for (int i = 0; i < rawData.length; i++) {

@@ -146,11 +146,12 @@ public class BasicInfo_GuardianInformation extends BasePage {
 	}
 
 	public void okButtonSuccessPopup() {
+		blinkElement(okButtonSuccessPopup);
 		handleModalOk(okButtonSuccessPopup);
 	}
 
 	// fill the guardian information form
-	public void fillGuardianInformationForm(String guardianType, String guardianFullName, String guardianDob,
+	public BasicInfo_LanguageInformation fillGuardianInformationForm(String guardianType, String guardianFullName, String guardianDob,
 			String guardianDisability) {
 		addGuardianInfoBtn();
 		selectGuardianTypeOption(guardianType);
@@ -159,6 +160,7 @@ public class BasicInfo_GuardianInformation extends BasePage {
 		guardianDisabilityOptions(guardianDisability);
 		saveGuardianInfoBtn();
 		okButtonSuccessPopup();
+		return new BasicInfo_LanguageInformation(driver);
 
 	}
 

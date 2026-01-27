@@ -17,21 +17,24 @@ public class IHSM_FullBasicInformationFlow extends BaseClass {
 		// Enrollnment Information
 		logger.info("Filling Employee Enrollnment Information...");
 		BasicInfo_EnrollnmentInformation enrollInfo = new BasicInfo_EnrollnmentInformation(getDriver());
-		enrollInfo.fillEnrollnmentInformationForm("jfadk", "Nia", "Female", "412131", "nia123@gmail.com", "Swizz");
+		enrollInfo.fillEnrollnmentInformationForm(TestDataGenerator.randomString(5), TestDataGenerator.randomString(4),
+				"Female", TestDataGenerator.randomNumber(5), TestDataGenerator.randomEmail(),
+				TestDataGenerator.randomCountry());
 		logger.info("Employee Enrollnment Information submitted successfully");
 
 		// Personal Information
 		logger.info("Filling Employee Personal Information...");
 		BasicInfo_PersonalInformation personalInfo = new BasicInfo_PersonalInformation(getDriver());
-		personalInfo.fillPersonalInformationForm("kjf", "Nia", "4512", "8454", "01012000", "Female", "Single",
-				"01012026", "nia49613@gmail.com", "91", "9813981398", "India",
+		personalInfo.fillPersonalInformationForm(TestDataGenerator.randomString(4), TestDataGenerator.randomString(3),
+				TestDataGenerator.randomNumber(4), TestDataGenerator.randomNumber(5), "01012000", "Female",
+				TestDataGenerator.randomMaritalStatus(), "01012026", "91", TestDataGenerator.randomPhone(), "India",
 				"Other Address Line 1, Other Address Line 2, City, State, 123456");
 		logger.info("Employee Personal Information submitted successfully");
 
 		// Guardian Information
 		logger.info("Filling Employee Guardian Information...");
 		BasicInfo_GuardianInformation guardianInfo = new BasicInfo_GuardianInformation(getDriver());
-		guardianInfo.fillGuardianInformationForm("Nothing", "Ramesh Kumar", "01011970", "No");
+		guardianInfo.fillGuardianInformationForm(TestDataGenerator.randomGuardian(), "Ramesh Kumar", "01011970", "No");
 		logger.info("Employee Guardian Information submitted successfully");
 
 		// Language Information
@@ -43,7 +46,8 @@ public class IHSM_FullBasicInformationFlow extends BaseClass {
 		// Vaccination Information
 		logger.info("Filling Employee Vaccination Information...");
 		BasicInfo_VaccinationInformation vaccinationInfo = new BasicInfo_VaccinationInformation(getDriver());
-		vaccinationInfo.fillVaccinationForm("kuch bi", "Phases", "4851", "01012026", "Remarks");
+		vaccinationInfo.fillVaccinationForm(TestDataGenerator.randomString(4), TestDataGenerator.randomString(4),
+				"4851", "01012026", "Remarks");
 		logger.info("Employee Vaccination Information submitted successfully");
 
 		// Biometrics Information

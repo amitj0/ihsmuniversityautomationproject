@@ -267,7 +267,7 @@ public class BasePage {
 				JavascriptExecutor js = (JavascriptExecutor) driver;
 				String originalStyle = element.getAttribute("style");
 
-				for (int i = 0; i < 2; i++) {
+				for (int i = 0; i < 3; i++) {
 					js.executeScript("arguments[0].setAttribute('style','border:3px solid black; background: yellow;')",
 							element);
 					Thread.sleep(200);

@@ -18,26 +18,11 @@ public class BasicInfo_PersonalInformation extends BasePage {
 	@FindBy(xpath = "//div[@id='divbtnemppersonalinfo']//span")
 	private WebElement addPersonalInfoBtn;
 
-	@FindBy(name = "strMiddleName")
-	private WebElement nameInRussianLangField;
-
-	@FindBy(name = "strFirstName")
-	private WebElement nameInEnglishField;
-
-	@FindBy(name = "strTinNo")
-	private WebElement tinNumberField;
-
 	@FindBy(name = "strWONumbers")
 	private WebElement workOrderNumberField;
 
 	@FindBy(xpath = "//div[@id='divPersonalInfoMaodel']//input[@type='date' and @name='DOB']")
 	private WebElement dobFieldPersonalInfo;
-
-	@FindBy(xpath = "//div[@id='divPersonalInfoMaodel']//ng-select[@name='GENDER']")
-	private WebElement genderDropdownField;
-
-	@FindBy(xpath = "//div[contains(@class,'ng-dropdown-panel')]//div[@role='option']")
-	private List<WebElement> genderDropdownOptions;
 
 	@FindBy(name = "strMaritialStatus")
 	private WebElement maritalStatusDropdownField;
@@ -56,9 +41,6 @@ public class BasicInfo_PersonalInformation extends BasePage {
 
 	@FindBy(name = "dttDateOfJoining")
 	private WebElement dateOfJoiningField;
-
-	@FindBy(xpath = "//div[@id='divPersonalInfoMaodel']//input[@name='EMAIL']")
-	private WebElement emailFieldPersonalInfo;
 
 	@FindBy(xpath = "//label[normalize-space()='Mobile No*']/following::ng-select[1]//div[contains(@class,'ng-select-container')]")
 	private WebElement selectCountryCodeField;
@@ -86,34 +68,6 @@ public class BasicInfo_PersonalInformation extends BasePage {
 	public void addPersonalInfoBtn() {
 		blinkElement(addPersonalInfoBtn);
 		safeClick(addPersonalInfoBtn);
-	}
-
-	public void nameInRussianLangField(String nameInRussianLang) {
-		safeClick(nameInRussianLangField);
-		nameInRussianLangField.sendKeys(nameInRussianLang);
-	}
-
-	public void nameInEnglishField(String nameInEnglish) {
-		nameInEnglishField.sendKeys(nameInEnglish);
-	}
-
-	public void tinNumberField(String tinNumber) {
-		tinNumberField.sendKeys(tinNumber);
-	}
-
-	public void genderDropdownField() {
-		safeClick(genderDropdownField);
-	}
-
-	public void genderDropdownOptions(String gender) {
-		safeClick(genderDropdownField);
-
-		for (WebElement option : genderDropdownOptions) {
-			if (option.getText().trim().equalsIgnoreCase(gender)) {
-				safeClick(option);
-				return;
-			}
-		}
 	}
 
 	public void workOrderNumberField(String workOrderNumber) {
@@ -195,10 +149,6 @@ public class BasicInfo_PersonalInformation extends BasePage {
 		enterDate(dateOfJoiningField, dateOfJoining);
 	}
 
-	public void emailFieldPersonalInfo(String email) {
-		emailFieldPersonalInfo.sendKeys(email);
-	}
-
 	public void selectCountryCodeField() {
 		safeClick(selectCountryCodeField);
 	}
@@ -246,26 +196,21 @@ public class BasicInfo_PersonalInformation extends BasePage {
 	}
 
 	// fill the personal information form
-	public void fillPersonalInformationForm(String russianName, String englishName, String tinNumber,
-			String workOrderNumber, String dob, String gender, String maritalStatus, String dateOfJoining, String email,
-			String countryCode, String mobileNumber, String address, String addressLine2) {
+	public BasicInfo_GuardianInformation fillPersonalInformationForm(String russianName, String englishName,
+			String tinNumber, String workOrderNumber, String dob, String gender, String maritalStatus,
+			String dateOfJoining, String countryCode, String mobileNumber, String address, String addressLine2) {
 		addPersonalInfoBtn();
-		nameInRussianLangField(russianName);
-		nameInEnglishField(englishName);
-		tinNumberField(tinNumber);
 		workOrderNumberField(workOrderNumber);
 		dobFieldPersonalInfo(dob);
-		genderDropdownField();
-		genderDropdownOptions(gender);
 		maritalStatusDropdownOptions(maritalStatus);
 		dateOfJoiningField(dateOfJoining);
-		emailFieldPersonalInfo(email);
 		selectCountryCodeOptions(countryCode);
 		mobileNumberField(mobileNumber);
 		addressField(address);
 		addressLine2Field(addressLine2);
 		saveButtonPersonalInfo();
 		saveOkButtonPersonalInfo();
+		return new BasicInfo_GuardianInformation(driver);
 	}
 
 }

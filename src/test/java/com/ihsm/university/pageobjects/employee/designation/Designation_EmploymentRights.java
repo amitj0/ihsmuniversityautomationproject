@@ -67,7 +67,7 @@ public class Designation_EmploymentRights extends BasePage {
 	private List<WebElement> programDropdownOptions;
 
 	@FindBy(xpath = "//div[@id='staticBackdropPosition']//input[@name='basis']")
-	private WebElement basisField;
+	private WebElement pensionField;
 
 	@FindBy(xpath = "//div[@id='staticBackdropPosition']//input[@name='rPensionFrom']")
 	private WebElement pensionFromField;
@@ -92,7 +92,6 @@ public class Designation_EmploymentRights extends BasePage {
 
 	// methods to perform the action
 	public void designationTab() {
-		blinkElement(designationTab);
 		safeClick(designationTab);
 	}
 
@@ -199,7 +198,7 @@ public class Designation_EmploymentRights extends BasePage {
 	}
 
 	public void basisField(String basis) {
-		basisField.sendKeys(basis);
+		pensionField.sendKeys(basis);
 	}
 
 	public void pensionFromField(String pensionFrom) {
@@ -241,9 +240,10 @@ public class Designation_EmploymentRights extends BasePage {
 	}
 
 	// fill employment rights form
-	public void fillEmploymentRightsForm(String jobType, String rating, String operationStatus, String orderNo,
-			String probationDate, String probationTillDate, String department, String positionPart, String program,
-			String basis, String pensionFrom, String employmentBookHistoryNo, String salary, String notes) {
+	public Designation_Position fillEmploymentRightsForm(String jobType, String rating, String operationStatus,
+			String orderNo, String probationDate, String probationTillDate, String department, String positionPart,
+			String program, String basis, String pensionFrom, String employmentBookHistoryNo, String salary,
+			String notes) {
 		designationTab();
 		addEmploymentRightsBtn();
 		jobTypeDropdownField();
@@ -269,6 +269,7 @@ public class Designation_EmploymentRights extends BasePage {
 		mainPositionCheckbox();
 		saveBtn();
 		okButtonSuccessPopup();
+		return new Designation_Position(driver);
 
 	}
 

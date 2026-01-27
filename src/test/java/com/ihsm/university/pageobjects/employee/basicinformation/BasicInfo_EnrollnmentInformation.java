@@ -57,7 +57,7 @@ public class BasicInfo_EnrollnmentInformation extends BasePage {
 	@FindBy(xpath = "//div[@id='AddMasterDataModal']//button[contains(@class, 'btnprimary') and text()='Save']")
 	private WebElement saveCitizenshipButton;
 
-	@FindBy(xpath = "//div[contains(@class,'modal-content')]//button[normalize-space()='Save']")
+	@FindBy(xpath = "//div[@id='divEmployeeRegistration']//button[contains(@class, 'btnprimary') and text()='Save']")
 	private WebElement saveButtonEnrollnmentInfo;
 
 	@FindBy(xpath = "//div[@id='AlertSuccesModal' and contains(@class,'show')]//button[normalize-space()='Ok']")
@@ -177,7 +177,7 @@ public class BasicInfo_EnrollnmentInformation extends BasePage {
 	}
 
 	// fill the enrollnment information form
-	public BasicInfo_EnrollnmentInformation fillEnrollnmentInformationForm(String firstName, String nameInEnglish, String gender, String iinNumber,
+	public BasicInfo_PersonalInformation fillEnrollnmentInformationForm(String firstName, String nameInEnglish, String gender, String iinNumber,
 			String email, String citizenship) {
 		clickEmploymentDetailsTab();
 		clickEnrollnmentInformationLink();
@@ -190,7 +190,8 @@ public class BasicInfo_EnrollnmentInformation extends BasePage {
 		enterEmail(email);
 		citizenshipDropdownField();
 		selectCitizenshipOption(citizenship);
-		return new BasicInfo_EnrollnmentInformation(driver);
+		clickSaveButtonEnrollnmentInfo();
+		return new BasicInfo_PersonalInformation(driver);
 
 	}
 

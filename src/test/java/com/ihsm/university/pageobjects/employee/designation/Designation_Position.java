@@ -58,7 +58,7 @@ public class Designation_Position extends BasePage {
 	public void experienceRatingDropdownOptions(String rating) {
 		safeClick(experienceRatingDropdownField);
 		for (WebElement option : experienceRatingDropdownOptions) {
-			if (option.getText().equalsIgnoreCase(rating)) {
+			if (option.getText().trim().equalsIgnoreCase(rating)) {
 				safeClick(option);
 				return;
 			}
@@ -69,16 +69,16 @@ public class Designation_Position extends BasePage {
 		enterDate(expStartDateField, startDate);
 	}
 
-	public void organizationNameField(String organizationName) {
-		enterDate(organizationNameField, organizationName);
-	}
-
 	public void expEndDateField(String endDate) {
 		enterDate(expEndDateField, endDate);
 	}
 
+	public void organizationNameField(String organizationName) {
+		organizationNameField.sendKeys(organizationName);
+	}
+
 	public void positionInOtherOrgField(String positionInOtherOrg) {
-		enterDate(positionInOtherOrgField, positionInOtherOrg);
+		positionInOtherOrgField.sendKeys(positionInOtherOrg);
 	}
 
 	public void noteField(String note) {
@@ -115,6 +115,7 @@ public class Designation_Position extends BasePage {
 		noteField(note);
 		savePositionInOtherOrgBtn();
 		okButtonSuccessPopup();
+		// return here
 	}
 
 }

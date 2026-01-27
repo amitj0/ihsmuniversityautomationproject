@@ -33,7 +33,7 @@ public class BasicInfo_VaccinationInformation extends BasePage {
 	@FindBy(xpath = "//div[@id='AddMasterDataModal']//button[contains(@class, 'btnprimary') and text()='Save']")
 	private WebElement saveVaccinationTypeButton;
 
-	@FindBy(xpath = "//div[@id='VaccinationModelID']//ng-select[@name='intdose']")
+	@FindBy(xpath = "(//div[@id='VaccinationModelID']//div[@class='input-group'])[2]")
 	private WebElement vaccinationPhaseDropdownField;
 
 	@FindBy(xpath = "//div[contains(@class,'ng-dropdown-panel')]//div[@role='option']")
@@ -195,8 +195,8 @@ public class BasicInfo_VaccinationInformation extends BasePage {
 	}
 
 	// fill the vaccination form
-	public void fillVaccinationForm(String vaccinationType, String vaccinationPhase, String certificateNumber,
-			String vaccinationDate, String remarks) {
+	public BasicInfo_BiometricsInformation fillVaccinationForm(String vaccinationType, String vaccinationPhase,
+			String certificateNumber, String vaccinationDate, String remarks) {
 		addVaccinationInfoBtn();
 		vaccinationTypeDropdownField();
 		selectVaccinationTypeOption(vaccinationType);
@@ -207,6 +207,7 @@ public class BasicInfo_VaccinationInformation extends BasePage {
 		fillRemarks(remarks);
 		saveVaccinationInfoBtn();
 		okButtonSuccessPopup();
+		return new BasicInfo_BiometricsInformation(driver);
 	}
 
 }

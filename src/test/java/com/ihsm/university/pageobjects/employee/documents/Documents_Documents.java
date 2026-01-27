@@ -41,7 +41,6 @@ public class Documents_Documents extends BasePage {
 
 	// methods to perform the action
 	public void documentsTab() {
-		blinkElement(documentsTab);
 		safeClick(documentsTab);
 	}
 
@@ -89,7 +88,8 @@ public class Documents_Documents extends BasePage {
 	}
 
 	// fill document information
-	public void fillDocumentInformation(String docType, String notes, String filePath) {
+	public Documents_Passport fillDocumentInformation(String docType, String notes, String filePath) {
+		documentsTab();
 		addDocumentsBtn();
 		documentTypeDropdownField();
 		documentTypeDropdownOptions(docType);
@@ -97,6 +97,7 @@ public class Documents_Documents extends BasePage {
 		uploadDocumentField(filePath);
 		saveDocumentBtn();
 		okButtonSuccessPopup();
+		return new Documents_Passport(driver);
 	}
 
 }
