@@ -12,7 +12,7 @@
 		<parameter name="browser" value="chrome" />
 		<classes>
 			<class
-				name="com.ihsm.university.testcases.workflow.IHSM_EmployeeRegistrationFullWorkFlow" />
+				name="com.ihsm.university.testcases.workflow.IHSM_StudentRegistrationFullWorkFlow" />
 
 		</classes>
 	</test>
