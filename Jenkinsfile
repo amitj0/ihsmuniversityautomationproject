@@ -124,7 +124,7 @@ TEST TYPE : ${params.TEST_TYPE}
 
     success {
         emailext(
-            to: 'ajangra@ismedusoftsol.com',
+            to: 'ajangra@ismedusoftsol.com,jchhillar@ismedusoftsol.com,vpahwa@ismedusoftsol.com',
             subject: "✅ ${PROJECT} | SUCCESS | Build #${BUILD_NUMBER}",
             mimeType: 'text/html',
 
@@ -139,10 +139,10 @@ TEST TYPE : ${params.TEST_TYPE}
             <p><b>Browser:</b> ${params.BROWSER}</p>
             <p><b>Suite:</b> ${params.TEST_TYPE}</p>
 
-            <p>
-              <a href="${BUILD_URL}">🔗 Open Jenkins Build</a><br>
-              <a href="${BUILD_URL}HTML_20Report/">📊 Open Extent Report</a>
-            </p>
+            //<p>
+            //<a href="${BUILD_URL}">🔗 Open Jenkins Build</a><br>
+            //<a href="${BUILD_URL}HTML_20Report/">📊 Open Extent Report</a>
+           //</p>
 
             <p><b>Attachments:</b></p>
             <ul>
@@ -155,7 +155,7 @@ TEST TYPE : ${params.TEST_TYPE}
 
     failure {
         emailext(
-            to: 'ajangra@ismedusoftsol.com',
+            to: 'ajangra@ismedusoftsol.com,jchhillar@ismedusoftsol.com,vpahwa@ismedusoftsol.com',
             subject: "❌ ${PROJECT} | FAILED | Build #${BUILD_NUMBER}",
             mimeType: 'text/html',
 
@@ -170,10 +170,10 @@ TEST TYPE : ${params.TEST_TYPE}
             <p><b>Browser:</b> ${params.BROWSER}</p>
             <p><b>Suite:</b> ${params.TEST_TYPE}</p>
 
-            <p>
-              <a href="${BUILD_URL}">🔗 Open Jenkins Build</a><br>
-              <a href="${BUILD_URL}HTML_20Report/">📊 Open Extent Report</a>
-            </p>
+            //<p>
+              //<a href="${BUILD_URL}">🔗 Open Jenkins Build</a><br>
+              //<a href="${BUILD_URL}HTML_20Report/">📊 Open Extent Report</a>
+            //</p>
 
             <p><b>Attachments:</b></p>
             <ul>
