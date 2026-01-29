@@ -97,6 +97,7 @@ public class Status_Status extends BasePage {
 	public void okButtonSuccessPopup() {
 		blinkElement(okButtonSuccessPopup);
 		handleModalOk(okButtonSuccessPopup);
+		refreshPageSafely();
 	}
 
 	// fill status status form

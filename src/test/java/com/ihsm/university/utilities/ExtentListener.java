@@ -63,16 +63,12 @@ public class ExtentListener implements ITestListener {
 	@Override
 	public void onTestSuccess(ITestResult result) {
 
-		TestResultSummary.passed++;
-
 		test.get().log(Status.PASS, MarkupHelper.createLabel("TEST PASSED", ExtentColor.GREEN));
 	}
 
 	// ================= FAIL =================
 	@Override
 	public void onTestFailure(ITestResult result) {
-
-		TestResultSummary.failed++;
 
 		test.get().log(Status.FAIL, MarkupHelper.createLabel("TEST FAILED", ExtentColor.RED));
 
@@ -127,8 +123,6 @@ public class ExtentListener implements ITestListener {
 	@Override
 	public void onTestSkipped(ITestResult result) {
 
-		TestResultSummary.skipped++;
-
 		test.get().log(Status.SKIP, MarkupHelper.createLabel("TEST SKIPPED", ExtentColor.YELLOW));
 	}
 
@@ -140,13 +134,6 @@ public class ExtentListener implements ITestListener {
 			extent.flush();
 		}
 
-		// Email Report
-		try {
-			if (reportPath != null && new File(reportPath).exists()) {
-				EmailUtils.sendMail(reportPath);
-			}
-		} catch (Exception e) {
-			System.out.println("Email skipped");
-		}
 	}
+
 }

@@ -180,6 +180,7 @@ public class Academics_Qualification_Qualification extends BasePage {
 	public void okButtonSuccessPopup() {
 		blinkElement(okButtonSuccessPopup);
 		handleModalOk(okButtonSuccessPopup);
+		refreshPageSafely();
 	}
 
 	public void popCut() {

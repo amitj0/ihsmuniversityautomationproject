@@ -419,36 +419,52 @@ public class BasePage {
 		}
 	}
 
+	/*
+	 * public void selectDropdownOption(WebElement dropdown, String optionText) {
+	 * WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3)); int
+	 * attempts = 0;
+	 * 
+	 * while (attempts < 3) { // Retry to handle stale elements try { // Open the
+	 * dropdown safeClick(dropdown);
+	 * 
+	 * // Wait for options to appear List<WebElement> options =
+	 * wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(
+	 * By.xpath("//div[contains(@class,'ng-dropdown-panel')]//div[@role='option']"))
+	 * );
+	 * 
+	 * // Loop through options and click the matching one for (WebElement option :
+	 * options) { if (option.getText().trim().equalsIgnoreCase(optionText)) {
+	 * safeClick(option); return; } }
+	 * 
+	 * throw new NoSuchElementException("Option not found: " + optionText);
+	 * 
+	 * } catch (StaleElementReferenceException e) { // Retry if element became stale
+	 * attempts++; } }
+	 * 
+	 * throw new
+	 * StaleElementReferenceException("Dropdown element is stale after multiple attempts: "
+	 * + dropdown); }
+	 */
+
 	public void selectDropdownOption(WebElement dropdown, String optionText) {
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
-		int attempts = 0;
 
-		while (attempts < 3) { // Retry to handle stale elements
-			try {
-				// Open the dropdown
-				safeClick(dropdown);
+		try {
+			// Open dropdown
+			safeClick(dropdown);
 
-				// Wait for options to appear
-				List<WebElement> options = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(
-						By.xpath("//div[contains(@class,'ng-dropdown-panel')]//div[@role='option']")));
+			// Wait ONLY for panel (not all options)
+			WebElement panel = wait
+					.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div.ng-dropdown-panel")));
 
-				// Loop through options and click the matching one
-				for (WebElement option : options) {
-					if (option.getText().trim().equalsIgnoreCase(optionText)) {
-						safeClick(option);
-						return;
-					}
-				}
+			// Find matching option directly
+			WebElement option = panel
+					.findElement(By.xpath(".//div[@role='option'][normalize-space()='" + optionText + "']"));
 
-				throw new NoSuchElementException("Option not found: " + optionText);
+			safeClick(option);
 
-			} catch (StaleElementReferenceException e) {
-				// Retry if element became stale
-				attempts++;
-			}
+		} catch (Exception e) {
+			throw new NoSuchElementException("Dropdown value not found: " + optionText, e);
 		}
-
-		throw new StaleElementReferenceException("Dropdown element is stale after multiple attempts: " + dropdown);
 	}
 
 	// Utility method to capture screenshot

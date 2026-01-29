@@ -76,7 +76,6 @@ public class Documents_VisaInfo_OffVisa extends BasePage {
 		safeClick(visaTypeField);
 		for (WebElement option : visaTypeFieldList) {
 			if (option.getText().equalsIgnoreCase(visaType)) {
-				blinkElement(option);
 				safeClick(option);
 				return;
 			}
