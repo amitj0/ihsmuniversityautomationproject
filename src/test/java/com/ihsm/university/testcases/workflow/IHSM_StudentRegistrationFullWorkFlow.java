@@ -1,7 +1,9 @@
 package com.ihsm.university.testcases.workflow;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import com.ihsm.university.base.BaseClass;
+import com.ihsm.university.navigation.Student_Search;
 import com.ihsm.university.testcases.flows.student.*;
 
 public class IHSM_StudentRegistrationFullWorkFlow extends BaseClass {

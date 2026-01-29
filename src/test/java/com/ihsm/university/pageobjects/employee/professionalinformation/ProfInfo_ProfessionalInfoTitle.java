@@ -149,11 +149,12 @@ public class ProfInfo_ProfessionalInfoTitle extends BasePage {
 			e.printStackTrace();
 		}
 		safeClick(saveTitleBtn);
+		handleAlertIfPresent();
 	}
 
 	public void okButtonSuccessPopupTitle() {
 		blinkElement(okButtonSuccessPopupTitle);
-		safeClick(okButtonSuccessPopupTitle);
+		handleModalOk(okButtonSuccessPopupTitle);
 	}
 
 	// fill the Title form

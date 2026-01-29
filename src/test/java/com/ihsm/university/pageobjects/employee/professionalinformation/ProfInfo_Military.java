@@ -8,9 +8,9 @@ import org.openqa.selenium.support.FindBy;
 
 import com.ihsm.university.base.BasePage;
 
-public class ProfInfo_ProfessionalInfo_Military extends BasePage {
+public class ProfInfo_Military extends BasePage {
 
-	public ProfInfo_ProfessionalInfo_Military(WebDriver driver) {
+	public ProfInfo_Military(WebDriver driver) {
 		super(driver);
 	}
 
@@ -121,12 +121,18 @@ public class ProfInfo_ProfessionalInfo_Military extends BasePage {
 
 	public void saveMilitaryInfoBtn() {
 		blinkElement(saveMilitaryInfoBtn);
+		try {
+			captureScreenshot("Military Information Filled");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		safeClick(saveMilitaryInfoBtn);
+		handleAlertIfPresent();
 	}
 
 	public void okButtonMilitry() {
 		blinkElement(okButtonMilitry);
-		safeClick(okButtonMilitry);
+		handleModalOk(okButtonMilitry);
 	}
 
 	// fill military information form

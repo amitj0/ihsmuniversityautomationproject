@@ -30,8 +30,19 @@ public class TestDataGenerator {
 	}
 
 	// Unique Email
+//	public static String randomEmail() {
+//		return "name_" + System.currentTimeMillis() + "@testmail.com";
+//	}
+
 	public static String randomEmail() {
-		return "name_" + System.currentTimeMillis() + "@testmail.com";
+
+		String[] names = { "Nia", "Liam", "Ava", "Noah", "Mia", "Ethan", "Zara", "Leo" };
+
+		String randomName = names[(int) (Math.random() * names.length)];
+
+		String unique = UUID.randomUUID().toString().substring(0, 6);
+
+		return randomName + "_" + unique + "@testmail.com";
 	}
 
 	// Random Passport

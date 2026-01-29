@@ -282,6 +282,50 @@ public class BasePage {
 		}
 	}
 
+	public void blinkElementToVerify(WebElement element) {
+		try {
+			if (waitUntilVisible(element, Duration.ofSeconds(1))) {
+				JavascriptExecutor js = (JavascriptExecutor) driver;
+				String originalStyle = element.getAttribute("style");
+
+				for (int i = 0; i < 3; i++) {
+					js.executeScript("arguments[0].setAttribute('style','border:3px solid black; background: green;')",
+							element);
+					Thread.sleep(200);
+
+					js.executeScript("arguments[0].setAttribute('style', arguments[1])", element, originalStyle);
+					Thread.sleep(200);
+				}
+			}
+		} catch (Exception e) {
+			logger.debug("Unable to highlight element", e);
+			Thread.currentThread().interrupt();
+		}
+	}
+
+	public void handleSubmissionConfirmation() {
+
+		// Handle browser alert if present
+		try {
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
+			Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+			System.out.println("[WARN] Browser alert detected: " + alert.getText());
+			alert.accept();
+		} catch (TimeoutException e) {
+			// No browser alert appeared
+		}
+
+		// Handle success modal OK button if present
+		try {
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+			WebElement okBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(
+					"//div[@id='AlertSuccesModal' and contains(@class,'show')]//button[normalize-space()='Ok']")));
+			okBtn.click();
+		} catch (TimeoutException e) {
+			// Modal not present
+		}
+	}
+
 	// Random Image picker
 	public static String getRandomImage() {
 		File folder = new File("src/test/resources/images");

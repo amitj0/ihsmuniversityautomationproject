@@ -29,7 +29,9 @@ import java.util.logging.Level;
 
 public class BaseClass {
 
-	protected static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+//	protected static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+	protected static final ThreadLocal<WebDriver> driver = ThreadLocal.withInitial(() -> null);
+
 	private static final ThreadLocal<WebDriverWait> wait = new ThreadLocal<>();
 
 	public static Logger logger;

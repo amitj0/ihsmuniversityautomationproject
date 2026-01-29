@@ -141,16 +141,12 @@ public class ProfInfo_ProfessionalInfoAcademics extends BasePage {
 	}
 
 	public void documentTypeDropdownOptions(String documentType) {
-		// Open dropdown
 		safeClick(documentTypeDropdownField);
-
-		boolean found = false;
 
 		// Try selecting existing value
 		for (WebElement option : documentTypeDropdownOptions) {
 			if (option.getText().trim().equalsIgnoreCase(documentType)) {
 				safeClick(option);
-				found = true;
 				return;
 			}
 		}
@@ -196,11 +192,12 @@ public class ProfInfo_ProfessionalInfoAcademics extends BasePage {
 			e.printStackTrace();
 		}
 		safeClick(saveAcademicInfoBtn);
+		handleAlertIfPresent();
 	}
 
 	public void okButtonSuccessPopupAcademicInfo() {
 		blinkElement(okButtonSuccessPopupAcademicInfo);
-		safeClick(okButtonSuccessPopupAcademicInfo);
+		handleModalOk(okButtonSuccessPopupAcademicInfo);
 	}
 
 	// fill the academic info form

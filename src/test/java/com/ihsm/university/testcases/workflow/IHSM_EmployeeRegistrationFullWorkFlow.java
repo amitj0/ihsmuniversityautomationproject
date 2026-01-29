@@ -10,7 +10,7 @@ import com.ihsm.university.testcases.flows.employee.IHSM_FullProfessionalInforma
 
 public class IHSM_EmployeeRegistrationFullWorkFlow extends BaseClass {
 
-	@Test(description = "Verify Full Employee Registration Flow in IHSM University Application")
+	@Test(groups = "regression", description = "Verify Full Employee Registration Flow in IHSM University Application")
 	public void verifyEmployeeRegistrationFullFlow() throws Exception {
 		System.out.println("==== STARTING FULL EMPLOYEE REGISTRATION FLOW ====== ");
 
@@ -21,11 +21,11 @@ public class IHSM_EmployeeRegistrationFullWorkFlow extends BaseClass {
 		IHSM_FullDesignationFlow designInformationFlow = new IHSM_FullDesignationFlow();
 		designInformationFlow.execute();
 		logger.info("Designation Information filled successfully.......");
-		
+
 		IHSM_FullProfessionalInformation profInfoFlow = new IHSM_FullProfessionalInformation();
 		profInfoFlow.execute();
 		logger.info("Professional Information filled successfully.......");
-		
+
 		IHSM_FullDocumentsFlow docInfoFlow = new IHSM_FullDocumentsFlow();
 		docInfoFlow.execute();
 		logger.info("Documents Information filled successfully........");

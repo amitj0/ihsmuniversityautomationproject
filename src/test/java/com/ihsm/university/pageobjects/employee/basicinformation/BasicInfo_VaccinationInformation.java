@@ -2,6 +2,7 @@ package com.ihsm.university.pageobjects.employee.basicinformation;
 
 import java.util.List;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -21,8 +22,9 @@ public class BasicInfo_VaccinationInformation extends BasePage {
 	@FindBy(xpath = "//div[@id='VaccinationModelID']//ng-select[@name='strVaccinationType']")
 	private WebElement vaccinationTypeDropdownField;
 
-	@FindBy(xpath = "//div[contains(@class,'ng-dropdown-panel')]//div[@role='option']")
-	private List<WebElement> vaccinationTypeDropdownOptions;
+	private List<WebElement> getDropdownOptions() {
+		return driver.findElements(By.xpath("//div[contains(@class,'ng-dropdown-panel')]//div[@role='option']"));
+	}
 
 	@FindBy(xpath = "//div[@id='VaccinationModelID']//label[contains(normalize-space(),'Type')]/following::span[contains(@class,'addvalue')][1]")
 	private WebElement addVaccinationTypePlusButton;
@@ -35,9 +37,6 @@ public class BasicInfo_VaccinationInformation extends BasePage {
 
 	@FindBy(xpath = "(//div[@id='VaccinationModelID']//div[@class='input-group'])[2]")
 	private WebElement vaccinationPhaseDropdownField;
-
-	@FindBy(xpath = "//div[contains(@class,'ng-dropdown-panel')]//div[@role='option']")
-	private List<WebElement> vaccinationPhaseDropdownOptions;
 
 	@FindBy(xpath = "//div[@id='VaccinationModelID']//label[contains(normalize-space(),'Phase')]/following::span[contains(@class,'addvalue')][1]")
 	private WebElement addVaccinationPhasePlusButton;
@@ -75,7 +74,7 @@ public class BasicInfo_VaccinationInformation extends BasePage {
 		boolean found = false;
 
 		// Try selecting existing value
-		for (WebElement option : vaccinationTypeDropdownOptions) {
+		for (WebElement option : getDropdownOptions()) {
 			if (option.getText().trim().equalsIgnoreCase(vaccinationType)) {
 				safeClick(option);
 				found = true;
@@ -103,7 +102,7 @@ public class BasicInfo_VaccinationInformation extends BasePage {
 			safeClick(vaccinationTypeDropdownField);
 
 			// Select newly added value
-			for (WebElement option : vaccinationTypeDropdownOptions) {
+			for (WebElement option : getDropdownOptions()) {
 				if (option.getText().trim().equalsIgnoreCase(vaccinationType)) {
 					safeClick(option);
 					return;
@@ -126,7 +125,7 @@ public class BasicInfo_VaccinationInformation extends BasePage {
 		boolean found = false;
 
 		// Try selecting existing value
-		for (WebElement option : vaccinationPhaseDropdownOptions) {
+		for (WebElement option : getDropdownOptions()) {
 			if (option.getText().trim().equalsIgnoreCase(vaccinationPhase)) {
 				safeClick(option);
 				found = true;
@@ -154,7 +153,7 @@ public class BasicInfo_VaccinationInformation extends BasePage {
 			safeClick(vaccinationPhaseDropdownField);
 
 			// Select newly added value
-			for (WebElement option : vaccinationPhaseDropdownOptions) {
+			for (WebElement option : getDropdownOptions()) {
 				if (option.getText().trim().equalsIgnoreCase(vaccinationPhase)) {
 					safeClick(option);
 					return;
@@ -186,7 +185,7 @@ public class BasicInfo_VaccinationInformation extends BasePage {
 		}
 
 		safeClick(saveVaccinationInfoBtn);
-		handleAlertIfPresent();
+		handleSubmissionConfirmation();
 	}
 
 	public void okButtonSuccessPopup() {
@@ -206,7 +205,6 @@ public class BasicInfo_VaccinationInformation extends BasePage {
 		fillVaccinationDate(vaccinationDate);
 		fillRemarks(remarks);
 		saveVaccinationInfoBtn();
-		okButtonSuccessPopup();
 		return new BasicInfo_BiometricsInformation(driver);
 	}
 

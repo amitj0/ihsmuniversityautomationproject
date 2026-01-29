@@ -124,7 +124,7 @@ TEST TYPE : ${params.TEST_TYPE}
 
     success {
         emailext(
-            to: 'ajangra@ismedusoftsol.com,jchhillar@ismedusoftsol.com,vpahwa@ismedusoftsol.com,ankur@ismedusoftsol.com',
+            to: 'ajangra@ismedusoftsol.com',
             subject: "✅ ${PROJECT} | SUCCESS | Build #${BUILD_NUMBER}",
             mimeType: 'text/html',
 
@@ -155,7 +155,7 @@ TEST TYPE : ${params.TEST_TYPE}
 
     failure {
         emailext(
-            to: 'ajangra@ismedusoftsol.com,jchhillar@ismedusoftsol.com,vpahwa@ismedusoftsol.com,ankur@ismedusoftsol.com',
+            to: 'ajangra@ismedusoftsol.com',
             subject: "❌ ${PROJECT} | FAILED | Build #${BUILD_NUMBER}",
             mimeType: 'text/html',
 

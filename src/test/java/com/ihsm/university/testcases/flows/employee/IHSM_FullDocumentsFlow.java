@@ -20,8 +20,8 @@ public class IHSM_FullDocumentsFlow extends BaseClass {
 
 		logger.info("Filling Passport Information.....");
 		Documents_Passport docPassInfo = new Documents_Passport(getDriver());
-		docPassInfo.fillPassportDetails("AB13413", TestDataGenerator.randomString(5),
-				TestDataGenerator.randomString(4), TestDataGenerator.randomNumber(5), TestDataGenerator.randomNumber(5),
+		docPassInfo.fillPassportDetails(TestDataGenerator.randomString(5), TestDataGenerator.randomString(5),
+				TestDataGenerator.randomString(4), TestDataGenerator.randomNumber(5), "ABCD123456",
 				TestDataGenerator.randomCountry(), "01012026", "01012027");
 		logger.info("Passport Information submitted successfully");
 

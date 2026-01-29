@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="IHSM_Suite">
+<suite name="IHSM_Suite" parallel="classes" thread-count="2">
 
 	<listeners>
 		<listener class-name="com.ihsm.university.utilities.ExtentListener" />
@@ -18,15 +18,15 @@
 	</test>
 
 	<!-- Firefox Test (optional) -->
-	<!--
-    <test name="IHSM_UNIVERSITY_Firefox" thread-count="3">
-        <parameter name="os" value="windows"/>
-        <parameter name="browser" value="firefox"/>
-        <classes>
-            <class
-	name="com.ihsm.university.testcases.workflow.IHSM_StudentRegistrationFullWorkFlow"/>
-        </classes>
-    </test>
-    -->
+
+	<!--<test name="IHSM_UNIVERSITY_Firefox" thread-count="3">
+		<parameter name="os" value="windows" />
+		<parameter name="browser" value="firefox" />
+		<classes>
+			<class
+				name="com.ihsm.university.testcases.workflow.IHSM_EmployeeRegistrationFullWorkFlow" />
+		</classes>
+	</test>-->
+
 
 </suite>
