@@ -84,50 +84,13 @@ public class BasicInfo_PersonalInformation extends BasePage {
 	}
 
 	public void maritalStatusDropdownOptions(String maritalStatus) {
-
-		// Open dropdown
-		safeClick(maritalStatusDropdownField);
-
-		boolean found = false;
-
-		// Try selecting existing value
-		for (WebElement option : maritalStatusDropdownOptions) {
-			if (option.getText().trim().equalsIgnoreCase(maritalStatus)) {
-				safeClick(option);
-				found = true;
-				break;
-			}
-		}
-
-		// If not found → add new marital status
-		if (!found) {
-
-			// Click +
-			safeClick(addMaritalStatusPlusButton);
-
-			// Enter marital status
-			safeClick(maritalStatusInputField);
-			maritalStatusInputField.sendKeys(maritalStatus);
-
-			// Save
-			safeClick(saveMaritalStatusButton);
-
-			// OK
-			safeClick(saveOkButtonPersonalInfo);
-
-			// Reopen dropdown
-			safeClick(maritalStatusDropdownField);
-
-			// Select newly added value
-			for (WebElement option : maritalStatusDropdownOptions) {
-				if (option.getText().trim().equalsIgnoreCase(maritalStatus)) {
-					safeClick(option);
-					return;
-				}
-			}
-
-			throw new RuntimeException("Marital Status value not found even after adding: " + maritalStatus);
-		}
+		selectNgDropdownValue(maritalStatusDropdownField, // dropdown element
+				maritalStatus, // value to select
+				addMaritalStatusPlusButton, // "+" button
+				maritalStatusInputField, // input for new value
+				saveMaritalStatusButton, // save button
+				saveOkButtonPersonalInfo // OK button on modal
+		);
 	}
 
 	public void addMaritalStatusPlusButton() {
@@ -193,6 +156,10 @@ public class BasicInfo_PersonalInformation extends BasePage {
 	public void saveOkButtonPersonalInfo() {
 		blinkElement(saveOkButtonPersonalInfo);
 		handleModalOk(saveOkButtonPersonalInfo);
+	}
+
+	public boolean isPersonalInfoSavedSuccessfully() {
+		return saveOkButtonPersonalInfo.isDisplayed();
 	}
 
 	// fill the personal information form

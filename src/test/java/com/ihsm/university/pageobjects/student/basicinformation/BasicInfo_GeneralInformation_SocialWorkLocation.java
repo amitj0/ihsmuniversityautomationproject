@@ -59,6 +59,10 @@ public class BasicInfo_GeneralInformation_SocialWorkLocation extends BasePage {
 		blinkElement(okBtnPreSocialWorkField);
 		handleModalOk(okBtnPreSocialWorkField);
 	}
+	
+	public boolean isSocialWorkInfoSavedSuccessfully() {
+		return okBtnPreSocialWorkField.isDisplayed();
+	}
 
 	// fill Social Work Location details
 	public BasicInfo_MedicalInformation_Vaccination fillSocialWorkLocationDetails(String filePath) {

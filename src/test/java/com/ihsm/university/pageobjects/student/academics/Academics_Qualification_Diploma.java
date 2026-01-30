@@ -138,6 +138,10 @@ public class Academics_Qualification_Diploma extends BasePage {
 		blinkElement(popCut);
 		safeClick(popCut);
 	}
+	
+	public boolean isQualificationDiplomaSavedSuccessfully() {
+		return okButtonSuccessPopup.isDisplayed();
+	}
 
 	// fill the Qualification Diploma information
 	public Academics_Qualification_Qualification fillDiplomaDetails(String serialNo, String documentNo,

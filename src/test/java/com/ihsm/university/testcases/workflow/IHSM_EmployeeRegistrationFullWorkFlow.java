@@ -29,6 +29,8 @@ public class IHSM_EmployeeRegistrationFullWorkFlow extends BaseClass {
 		IHSM_FullDocumentsFlow docInfoFlow = new IHSM_FullDocumentsFlow();
 		docInfoFlow.execute();
 		logger.info("Documents Information filled successfully........");
+		
+		
 
 		System.out.println("===== FULL EMPLOYEE REGISTRATION FLOW COMPLETED SUCCESSFULLY =====");
 

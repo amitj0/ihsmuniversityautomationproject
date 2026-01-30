@@ -87,6 +87,10 @@ public class BasicInfo_LanguageInformation extends BasePage {
 		handleModalOk(okButtonSuccessPopup);
 	}
 
+	public boolean isLangInfoSavedSuccessfully() {
+		return okButtonSuccessPopup.isDisplayed();
+	}
+
 	// fill language information
 	public BasicInfo_VaccinationInformation fillLanguageInformation(String language, String proficiency) {
 		addLanguageInfoBtn();

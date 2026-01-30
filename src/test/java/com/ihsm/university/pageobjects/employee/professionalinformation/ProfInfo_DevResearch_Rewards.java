@@ -86,6 +86,10 @@ public class ProfInfo_DevResearch_Rewards extends BasePage {
 		blinkElement(okButtonRewards);
 		handleModalOk(okButtonRewards);
 	}
+	
+	public boolean isRewardInfoSavedSuccessfully() {
+		return okButtonRewards.isDisplayed();
+	}
 
 	// fill rewards form
 	public void fillRewardsForm(String rewardType, String rewardDate, String rewardDocument, String docNumber,

@@ -164,6 +164,10 @@ public class Status_ExamStatus extends BasePage {
 		blinkElement(okButtonSuccessPopup);
 		handleModalOk(okButtonSuccessPopup);
 	}
+	
+	public boolean isExamStatusInfoSavedSuccessfully() {
+		return okButtonSuccessPopup.isDisplayed();
+	}
 
 	// Fill the Exam Status Information
 	public void fillExamStatusInformation(String reason, String semester, String department, String subject,

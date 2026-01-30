@@ -29,6 +29,18 @@ public class BasicInfo_MedicalInformation_Disability extends BasePage {
 	@FindBy(xpath = "//ng-select[@name='TYPE']//div[@role='option']")
 	private List<WebElement> disabilityTypeFieldList;
 
+	@FindBy(xpath = "(//div[@id='MadicalInfoId']//label[contains(normalize-space(),'Type')]/following::span[contains(@class,'addvalue')])[3]")
+	private WebElement addDisabilityTypePlusBtn;
+
+	@FindBy(xpath = "//div[@id='AddMasterDataModal1ID']//input[@name='ENTER_VALUE']")
+	private WebElement disabilityTypeInputField;
+
+	@FindBy(xpath = "//div[@id='AddMasterDataModal1ID']//button[contains(@class, 'btnprimary') and text()='Save']")
+	private WebElement saveDisabilityTypeBtn;
+
+	@FindBy(xpath = "//div[@id='AlertSuccesModal' and contains(@class,'show')]//button[normalize-space()='Ok']")
+	private WebElement okBtntonDisabilityTypeSuccessPopup;
+
 	@FindBy(xpath = "//div[@id='tab55']//input[@name='DOCUMENT_NO']")
 	private WebElement disabilityDocumentNoField;
 
@@ -61,10 +73,29 @@ public class BasicInfo_MedicalInformation_Disability extends BasePage {
 	public void disabilityTypeFieldList(String disabilityType) {
 		safeClick(disabilityTypeField);
 
+		boolean typeFound = false;
 		for (WebElement option : disabilityTypeFieldList) {
 			if (option.getText().trim().equalsIgnoreCase(disabilityType)) {
 				safeClick(option);
+				typeFound = true;
 				return;
+			}
+		}
+
+		// If the type is not found, add it using the plus button
+		if (!typeFound) {
+			safeClick(addDisabilityTypePlusBtn);
+			safeClick(disabilityTypeInputField);
+			disabilityTypeInputField.sendKeys(disabilityType);
+			safeClick(saveDisabilityTypeBtn);
+			safeClick(okBtntonDisabilityTypeSuccessPopup);
+			// After adding, select the newly added type
+			safeClick(disabilityTypeField);
+			for (WebElement option : disabilityTypeFieldList) {
+				if (option.getText().trim().equalsIgnoreCase(disabilityType)) {
+					safeClick(option);
+					return;
+				}
 			}
 		}
 	}
@@ -97,6 +128,10 @@ public class BasicInfo_MedicalInformation_Disability extends BasePage {
 	public void okButtonSuccessPopup() {
 		blinkElement(okButtonSuccessPopup);
 		handleModalOk(okButtonSuccessPopup);
+	}
+	
+	public boolean isDisabilitySavedSuccessfully() {
+		return okButtonSuccessPopup.isDisplayed();
 	}
 
 	// fill the disability form

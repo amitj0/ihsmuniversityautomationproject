@@ -74,6 +74,10 @@ public class Documents_VisaInfo_PassportLocation extends BasePage {
 		handleModalOk(okButton);
 	}
 	
+	public boolean isPassportLocationTabDisplayed() {
+		return passLocationTab.isDisplayed();
+	}
+	
 	// fill the passport location information
 	public Academics_Qualification_LastEducation fillPassportLocationInfo(String location, String date) {
 		clickPassportInfoTab();

@@ -2,160 +2,157 @@ package com.ihsm.university.testcases.flows.student;
 
 public class StudentFullRegistrationDataVariables {
 
-	// -------------------------- ENROLLMENT INFORMATION --------------------------
-	public String term;
-	public String course;
-	public String year;
-	public String semester;
-	public String pin;
-	public String firstName;
-	public String middleName;
-	public String lastName;
-	public String gender;
-	public String dob;
-	public String country;
-	public String state;
-	public String mobile;
-	public String email;
-	public String nationality;
+    // -------------------------- ENROLLMENT INFORMATION --------------------------
+    public static String term;
+    public static String course;
+    public static String year;
+    public static String semester;
+    public static String pin;
+    public static String firstName;
+    public static String middleName;
+    public static String lastName;
+    public static String gender;
+    public static String dob;
+    public static String country;
+    public static String state;
+    public static String mobile;
+    public static String email;
+    public static String nationality;
 
-	// -------------------------- PERSONAL INFORMATION --------------------------
-	public String firstName2;
-	public String lastName2;
-	public String city;
-	public String maritalStatus;
-	public String country2;
+    // -------------------------- PERSONAL INFORMATION --------------------------
+    public static String firstName2;
+    public static String lastName2;
+    public static String city;
+    public static String maritalStatus;
+    public static String country2;
 
-	// -------------------------- BIOMETRIC INFORMATION --------------------------
-	public String biometricsImage;
+    // -------------------------- BIOMETRIC INFORMATION --------------------------
+    public static String biometricsImage;
 
-	// -------------------------- FAMILY INFORMATION --------------------------
-	public String relation;
-	public String familyName;
-	public String familyDob;
-	public String occupation;
-	public String countryCode; // parent country code
-	public String phone; // parent phone
-	public String dependent;
-	public String famCountry;
-	public String famState;
-	public String famCity;
-	public String famNationality;
+    // -------------------------- FAMILY INFORMATION --------------------------
+    public static String relation;
+    public static String familyName;
+    public static String familyDob;
+    public static String occupation;
+    public static String countryCode;
+    public static String phone;
+    public static String dependent;
+    public static String famCountry;
+    public static String famState;
+    public static String famCity;
+    public static String famNationality;
 
-	// -------------------------- LANGUAGE INFORMATION --------------------------
-	public String language;
-	public String languageLevel;
+    // -------------------------- LANGUAGE INFORMATION --------------------------
+    public static String language;
+    public static String languageLevel;
 
-	// -------------------------- GENERAL INFORMATION --------------------------
-	public String preRights;
-	public String preRightsImage;
-	public String socialStatus;
-	public String socialStatusImage;
-	public String workLocationImage;
+    // -------------------------- GENERAL INFORMATION --------------------------
+    public static String preRights;
+    public static String preRightsImage;
+    public static String socialStatus;
+    public static String socialStatusImage;
+    public static String workLocationImage;
 
-	// -------------------------- MEDICAL INFORMATION --------------------------
-	public String vacDose;
-	public String vacNumber;
-	public String vacDate;
-	public String vacCode;
-	public String vacRemarks;
-	public String vacImage;
+    // -------------------------- MEDICAL INFORMATION --------------------------
+    public static String vacDose;
+    public static String vacNumber;
+    public static String vacDate;
+    public static String vacCode;
+    public static String vacRemarks;
+    public static String vacImage;
 
-	public String polyDate;
-	public String polyType;
-	public String polyImage;
+    public static String polyDate;
+    public static String polyType;
+    public static String polyImage;
 
-	public String insStartDate;
-	public String insEnd;
-	public String insImage;
+    public static String insStartDate;
+    public static String insEnd;
+    public static String insImage;
 
-	public String disType;
-	public String disCode;
-	public String disDate;
-	public String disImage;
+    public static String disType;
+    public static String disCode;
+    public static String disDate;
+    public static String disImage;
 
-	// -------------------------- DOCUMENTS INFORMATION --------------------------
-	public String otherDocumentName;
-	public String otherDocumentImage;
+    // -------------------------- DOCUMENTS INFORMATION --------------------------
+    public static String otherDocumentName;
+    public static String otherDocumentImage;
 
-	public String idNumber;
-	public String idCountry;
-	public String idIssueDate;
-	public String idExpiryDate;
-	public String idImage;
+    public static String idNumber;
+    public static String idCountry;
+    public static String idIssueDate;
+    public static String idExpiryDate;
+    public static String idImage;
 
-	public String visaType;
-	public String visaPlaceOfIssue;
-	public String visaIssueDate;
-	public String visaStartDate;
-	public String visaEndDate;
-	public String visaRenewDate;
-	public String visaNumber;
-	public String visaCountry;
-	public String visaRemarks;
-	public String visaImage;
+    public static String visaType;
+    public static String visaPlaceOfIssue;
+    public static String visaIssueDate;
+    public static String visaStartDate;
+    public static String visaEndDate;
+    public static String visaRenewDate;
+    public static String visaNumber;
+    public static String visaCountry;
+    public static String visaRemarks;
+    public static String visaImage;
 
-	public String visaOnlineType;
-	public String visaOnlineStartDate;
-	public String visaOnlineIssueDate;
-	public String visaOnlineEndDate;
-	public String visaOnlineNumber;
+    public static String visaOnlineType;
+    public static String visaOnlineStartDate;
+    public static String visaOnlineIssueDate;
+    public static String visaOnlineEndDate;
+    public static String visaOnlineNumber;
 
-	public String visaRegisterPlace;
-	public String visaRegisterCountry;
-	public String visaRegisterDate;
-	public String visaRegisterRemarks;
+    public static String visaRegisterPlace;
+    public static String visaRegisterCountry;
+    public static String visaRegisterDate;
+    public static String visaRegisterRemarks;
 
-	public String passportLocation;
-	public String passportLocationDate;
+    public static String passportLocation;
+    public static String passportLocationDate;
 
-	public String passportNumber;
-	public String passportIssuePlace;
-	public String passportIssueDate;
-	public String passportExpiryDate;
+    public static String passportNumber;
+    public static String passportIssuePlace;
+    public static String passportIssueDate;
+    public static String passportExpiryDate;
 
-	// -------------------------- ACADEMICS INFORMATION --------------------------
-	// Last Education
-	public String lastEducation;
-	public String lastEducationSchool;
-	public String lastEducationStartDate;
-	public String lastEducationEndDate;
-	public String lastEducationGraduationDate;
-	public String lastEducationMarks;
-	public String lastEducationSubject;
-	public String lastEducationPercentage;
-	public String lastEducationImage;
+    // -------------------------- ACADEMICS INFORMATION --------------------------
+    public static String lastEducation;
+    public static String lastEducationSchool;
+    public static String lastEducationStartDate;
+    public static String lastEducationEndDate;
+    public static String lastEducationGraduationDate;
+    public static String lastEducationMarks;
+    public static String lastEducationSubject;
+    public static String lastEducationPercentage;
+    public static String lastEducationImage;
 
-	// Diploma
-	public String diplomaCode;
-	public String diplomaNumber;
-	public String diplomaRegistration;
-	public String diplomaStartDate;
-	public String diplomaEndDate;
-	public String diplomaInstitution;
-	public String diplomaRemarks;
-	public String diplomaType;
-	public String diplomaMarks;
-	public String diplomaGraduationDate;
-	public String diplomaImage;
+    public static String diplomaCode;
+    public static String diplomaNumber;
+    public static String diplomaRegistration;
+    public static String diplomaStartDate;
+    public static String diplomaEndDate;
+    public static String diplomaInstitution;
+    public static String diplomaRemarks;
+    public static String diplomaType;
+    public static String diplomaMarks;
+    public static String diplomaGraduationDate;
+    public static String diplomaImage;
 
-	// Qualification
-	public String qualificationType;
-	public String qualificationInstitution;
-	public String qualificationRegistrationNumber;
-	public String qualificationStartDate;
-	public String qualificationEndDate;
-	public String qualificationCompletionDate;
-	public String qualificationStatus;
-	public String qualificationCountry;
-	public String qualificationState;
-	public String qualificationCity;
-	public String qualificationImage;
+    public static String qualificationType;
+    public static String qualificationInstitution;
+    public static String qualificationRegistrationNumber;
+    public static String qualificationStartDate;
+    public static String qualificationEndDate;
+    public static String qualificationCompletionDate;
+    public static String qualificationStatus;
+    public static String qualificationCountry;
+    public static String qualificationState;
+    public static String qualificationCity;
+    public static String qualificationImage;
 
-	// -------------------------- STATUS INFORMATION --------------------------
-	public String status;
-	public String statusDate;
-	public String statusCode;
-	public String statusRemarks;
-	public String statusImage;
+    // -------------------------- STATUS INFORMATION --------------------------
+    public static String status;
+    public static String statusDate;
+    public static String statusCode;
+    public static String statusRemarks;
+    public static String statusImage;
 }

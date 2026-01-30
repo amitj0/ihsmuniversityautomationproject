@@ -86,6 +86,10 @@ public class Documents_Documents extends BasePage {
 		blinkElement(okButtonSuccessPopup);
 		handleModalOk(okButtonSuccessPopup);
 	}
+	
+	public boolean isDocInfoSavedSuccessfully() {
+		return okButtonSuccessPopup.isDisplayed();
+	}
 
 	// fill document information
 	public Documents_Passport fillDocumentInformation(String docType, String notes, String filePath) {

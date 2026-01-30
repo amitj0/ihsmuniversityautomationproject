@@ -238,6 +238,10 @@ public class Designation_EmploymentRights extends BasePage {
 		blinkElement(okButtonSuccessPopup);
 		handleModalOk(okButtonSuccessPopup);
 	}
+	
+	public boolean isDesEmpRightInfoSavedSuccessfully() {
+		return okButtonSuccessPopup.isDisplayed();
+	}
 
 	// fill employment rights form
 	public Designation_Position fillEmploymentRightsForm(String jobType, String rating, String operationStatus,

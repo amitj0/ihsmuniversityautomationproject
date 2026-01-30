@@ -156,6 +156,10 @@ public class ProfInfo_ProfessionalInfoTitle extends BasePage {
 		blinkElement(okButtonSuccessPopupTitle);
 		handleModalOk(okButtonSuccessPopupTitle);
 	}
+	
+	public boolean isProfInfoTitleSavedSuccessfully() {
+		return okButtonSuccessPopupTitle.isDisplayed();
+	}
 
 	// fill the Title form
 	public void fillTitleForm(String title, String organization, String documentNumber, String titleDate, String notes,

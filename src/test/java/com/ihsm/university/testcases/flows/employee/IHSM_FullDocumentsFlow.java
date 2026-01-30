@@ -15,13 +15,13 @@ public class IHSM_FullDocumentsFlow extends BaseClass {
 		// Documents
 		logger.info("Filling Documents Information...");
 		Documents_Documents docInfo = new Documents_Documents(getDriver());
-		docInfo.fillDocumentInformation("Visa", "Thank you", getTestDataPath("doc1.jpg"));
+		docInfo.fillDocumentInformation(TestDataGenerator.randomDocumentType(), TestDataGenerator.randomNotes(), TestDataGenerator.randomPhotoFile());
 		logger.info("Documents Information submitted successfully");
 
 		logger.info("Filling Passport Information.....");
 		Documents_Passport docPassInfo = new Documents_Passport(getDriver());
-		docPassInfo.fillPassportDetails(TestDataGenerator.randomString(5), TestDataGenerator.randomString(5),
-				TestDataGenerator.randomString(4), TestDataGenerator.randomNumber(5), "ABCD123456",
+		docPassInfo.fillPassportDetails(TestDataGenerator.randomPassportType(), TestDataGenerator.randomPassportCountry(),
+				TestDataGenerator.randomIssueAgency(), TestDataGenerator.randomNumber(5), TestDataGenerator.randomPassportNumber(),
 				TestDataGenerator.randomCountry(), "01012026", "01012027");
 		logger.info("Passport Information submitted successfully");
 

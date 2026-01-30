@@ -17,8 +17,8 @@ public class IHSM_FullBasicInformationFlow extends BaseClass {
 		// Enrollnment Information
 		logger.info("Filling Employee Enrollnment Information...");
 		BasicInfo_EnrollnmentInformation enrollInfo = new BasicInfo_EnrollnmentInformation(getDriver());
-		enrollInfo.fillEnrollnmentInformationForm(TestDataGenerator.randomString(5), TestDataGenerator.randomString(4),
-				"Female", TestDataGenerator.randomNumber(5), TestDataGenerator.randomEmail(),
+		enrollInfo.fillEnrollnmentInformationForm(TestDataGenerator.generateRandomRussianFirstName(), TestDataGenerator.generateRandomFirstName(),
+				TestDataGenerator.generateRandomGender(), TestDataGenerator.randomNumber(5), TestDataGenerator.randomEmail(),
 				TestDataGenerator.randomCountry());
 		logger.info("Employee Enrollnment Information submitted successfully");
 
@@ -26,15 +26,15 @@ public class IHSM_FullBasicInformationFlow extends BaseClass {
 		logger.info("Filling Employee Personal Information...");
 		BasicInfo_PersonalInformation personalInfo = new BasicInfo_PersonalInformation(getDriver());
 		personalInfo.fillPersonalInformationForm(TestDataGenerator.randomString(4), TestDataGenerator.randomString(3),
-				TestDataGenerator.randomNumber(4), TestDataGenerator.randomNumber(5), "01012000", "Female",
-				TestDataGenerator.randomMaritalStatus(), "01012026", "91", TestDataGenerator.randomPhone(), "India",
-				"Other Address Line 1, Other Address Line 2, City, State, 123456");
+				TestDataGenerator.randomNumber(4), TestDataGenerator.randomNumber(5), "01012000", TestDataGenerator.generateRandomGender(),
+				TestDataGenerator.randomMaritalStatus(), "01012026", "91", TestDataGenerator.randomPhone(), TestDataGenerator.randomIndianAddress(),
+				TestDataGenerator.randomIndianAddress());
 		logger.info("Employee Personal Information submitted successfully");
 
 		// Guardian Information
 		logger.info("Filling Employee Guardian Information...");
 		BasicInfo_GuardianInformation guardianInfo = new BasicInfo_GuardianInformation(getDriver());
-		guardianInfo.fillGuardianInformationForm(TestDataGenerator.randomGuardian(), "Ramesh Kumar", "01011970", "No");
+		guardianInfo.fillGuardianInformationForm(TestDataGenerator.randomGuardian(), TestDataGenerator.randomGuardianName(), "01011970", "No");
 		logger.info("Employee Guardian Information submitted successfully");
 
 		// Language Information
@@ -46,14 +46,14 @@ public class IHSM_FullBasicInformationFlow extends BaseClass {
 		// Vaccination Information
 		logger.info("Filling Employee Vaccination Information...");
 		BasicInfo_VaccinationInformation vaccinationInfo = new BasicInfo_VaccinationInformation(getDriver());
-		vaccinationInfo.fillVaccinationForm(TestDataGenerator.randomString(4), TestDataGenerator.randomString(4),
-				"4851", "01012026", "Remarks");
+		vaccinationInfo.fillVaccinationForm(TestDataGenerator.randomVaccinationType(), TestDataGenerator.randomVaccinationPhase(),
+				TestDataGenerator.randomNumber(5), "01012026", TestDataGenerator.randomNotes());
 		logger.info("Employee Vaccination Information submitted successfully");
 
 		// Biometrics Information
 		logger.info("Filling Employee Biometrics Information...");
 		BasicInfo_BiometricsInformation biometricsInfo = new BasicInfo_BiometricsInformation(getDriver());
-		biometricsInfo.fillBiometricsInfo(getTestDataPath("male.png"));
+		biometricsInfo.fillBiometricsInfo(TestDataGenerator.randomEmployeePhotoFile());
 		logger.info("Employee Biometrics Information submitted successfully");
 
 		logger.info("===== FULL BASIC INFORMATION FLOW COMPLETED =====");

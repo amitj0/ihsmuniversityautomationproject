@@ -26,6 +26,18 @@ public class BasicInfo_FamilyInformation extends BasePage {
 	@FindBy(xpath = "//div[contains(@class,'ng-dropdown-panel')]//div[@role='option']")
 	private List<WebElement> guardianFieldList;
 
+	@FindBy(xpath = "(//div[@id='familyinfoid']//label[contains(normalize-space(),'Select Guardian')]/following::span[contains(@class,'addvalue')])[1]")
+	private WebElement addGuardianPlusBtn;
+
+	@FindBy(xpath = "//div[@id='AddMasterDataModal1ID']//input[@name='ENTER_VALUE']")
+	private WebElement guardianInputField;
+
+	@FindBy(xpath = "//div[@id='AddMasterDataModal1ID']//button[contains(@class, 'btnprimary') and text()='Save']")
+	private WebElement saveGuardianBtn;
+
+	@FindBy(xpath = "//div[@id='AlertSuccesModal' and contains(@class,'show')]//button[normalize-space()='Ok']")
+	private WebElement guardianSaveOkBtn;
+
 	@FindBy(xpath = "//div[@id='familyinfoid']//input[@name='FULLNAME']")
 	private WebElement fullNameField;
 
@@ -37,6 +49,18 @@ public class BasicInfo_FamilyInformation extends BasePage {
 
 	@FindBy(xpath = "//div[contains(@class,'ng-dropdown-panel')]//div[@role='option']")
 	private List<WebElement> occupationFieldList;
+
+	@FindBy(xpath = "(//div[@id='familyinfoid']//label[contains(normalize-space(),'Select Guardian')]/following::span[contains(@class,'addvalue')])[2]")
+	private WebElement addOccupationPlusBtn;
+
+	@FindBy(xpath = "//div[@id='AddMasterDataModal1ID']//input[@name='ENTER_VALUE']")
+	private WebElement occupationInputField;
+
+	@FindBy(xpath = "//div[@id='AddMasterDataModal1ID']//button[contains(@class, 'btnprimary') and text()='Save']")
+	private WebElement saveOccupationBtn;
+
+	@FindBy(xpath = "//div[@id='AlertSuccesModal' and contains(@class,'show')]//button[normalize-space()='Ok']")
+	private WebElement occupationSaveOkBtn;
 
 	@FindBy(xpath = "(//div[@id='familyinfoid']//div[contains(@class,'ng-select-container')])[4]")
 	private WebElement mobileNoCountryCodeField;
@@ -53,7 +77,7 @@ public class BasicInfo_FamilyInformation extends BasePage {
 	@FindBy(xpath = "//div[contains(@class,'ng-dropdown-panel')]//div[@role='option']")
 	private List<WebElement> disabilityFieldList;
 
-	@FindBy(xpath = "//div[@id='familyinfoid']//label[normalize-space()='COUNTRY']/following-sibling::div[@class='input-group']")
+	@FindBy(xpath = "//div[@id='familyinfoid']//label[normalize-space()='Country']/following-sibling::div[@class='input-group']")
 	private WebElement countryField;
 
 	@FindBy(xpath = "//div[contains(@class,'ng-dropdown-panel')]//div[@role='option']")
@@ -64,6 +88,24 @@ public class BasicInfo_FamilyInformation extends BasePage {
 
 	@FindBy(xpath = "//div[contains(@class,'ng-dropdown-panel')]//div[@role='option']")
 	private List<WebElement> stateFieldList;
+
+	@FindBy(xpath = "(//div[@id='familyinfoid']//label[contains(normalize-space(),'State')]/following::span[contains(@class,'addvalue')])[1]")
+	private WebElement addStatePlusBtn;
+
+	@FindBy(xpath = "(//div[@id='ModalStateModel']//input[@name='ENTER_VALUE'])[1]")
+	private WebElement stateInputEnglishField;
+
+	@FindBy(xpath = "(//div[@id='ModalStateModel']//input[@name='ENTER_VALUE'])[2]")
+	private WebElement stateInputKazakField;
+
+	@FindBy(xpath = "(//div[@id='ModalStateModel']//input[@name='ENTER_VALUE'])[3]")
+	private WebElement stateInputRussianField;
+
+	@FindBy(xpath = "//div[@id='AddMasterDataModal1ID']//button[contains(@class, 'btnprimary') and text()='Save']")
+	private WebElement saveStateBtn;
+
+	@FindBy(xpath = "//div[@id='AlertSuccesModal' and contains(@class,'show')]//button[normalize-space()='Ok']")
+	private WebElement stateSaveOkBtn;
 
 	@FindBy(xpath = "//div[@id='familyinfoid']//label[normalize-space()='City']/following-sibling::div[@class='input-group']")
 	private WebElement cityField;
@@ -94,10 +136,29 @@ public class BasicInfo_FamilyInformation extends BasePage {
 	public void guardianFieldList(String guardianType) {
 		safeClick(guardianField);
 
+		boolean found = false;
 		for (WebElement option : guardianFieldList) {
 			if (option.getText().trim().equalsIgnoreCase(guardianType)) {
 				safeClick(option);
-				return;
+				found = true;
+				break;
+			}
+		}
+
+		if (!found) {
+			// If the guardian type is not found, add it using the plus button
+			safeClick(addGuardianPlusBtn);
+			safeClick(guardianInputField);
+			guardianInputField.sendKeys(guardianType);
+			safeClick(saveGuardianBtn);
+			safeClick(guardianSaveOkBtn);
+			// After adding, select it from the dropdown
+			safeClick(guardianField);
+			for (WebElement option : guardianFieldList) {
+				if (option.getText().trim().equalsIgnoreCase(guardianType)) {
+					safeClick(option);
+					break;
+				}
 			}
 		}
 	}
@@ -115,10 +176,29 @@ public class BasicInfo_FamilyInformation extends BasePage {
 	public void occupationFieldList(String occupationType) {
 		safeClick(occupationField);
 
+		boolean found = false;
 		for (WebElement option : occupationFieldList) {
 			if (option.getText().trim().equalsIgnoreCase(occupationType)) {
 				safeClick(option);
-				return;
+				found = true;
+				break;
+			}
+		}
+
+		if (!found) {
+			// If the occupation type is not found, add it using the plus button
+			safeClick(addOccupationPlusBtn);
+			safeClick(occupationInputField);
+			occupationInputField.sendKeys(occupationType);
+			safeClick(saveOccupationBtn);
+			safeClick(occupationSaveOkBtn);
+			// After adding, select it from the dropdown
+			safeClick(occupationField);
+			for (WebElement option : occupationFieldList) {
+				if (option.getText().trim().equalsIgnoreCase(occupationType)) {
+					safeClick(option);
+					break;
+				}
 			}
 		}
 	}
@@ -164,10 +244,33 @@ public class BasicInfo_FamilyInformation extends BasePage {
 	public void stateFieldList(String stateName) {
 		safeClick(stateField);
 
+		boolean found = false;
 		for (WebElement option : stateFieldList) {
 			if (option.getText().trim().equalsIgnoreCase(stateName)) {
 				safeClick(option);
-				return;
+				found = true;
+				break;
+			}
+		}
+		
+		if (!found) {
+			// If the state name is not found, add it using the plus button
+			safeClick(addStatePlusBtn);
+			safeClick(stateInputEnglishField);
+			stateInputEnglishField.sendKeys(stateName);
+			stateInputKazakField.sendKeys(stateName);
+			stateInputRussianField.sendKeys(stateName);
+			blinkElement(saveStateBtn);
+			safeClick(saveStateBtn);
+			blinkElement(stateSaveOkBtn);
+			safeClick(stateSaveOkBtn);
+			// After adding, select it from the dropdown
+			safeClick(stateField);
+			for (WebElement option : stateFieldList) {
+				if (option.getText().trim().equalsIgnoreCase(stateName)) {
+					safeClick(option);
+					break;
+				}
 			}
 		}
 	}
@@ -203,7 +306,11 @@ public class BasicInfo_FamilyInformation extends BasePage {
 		blinkElement(saveOkBtn);
 		handleModalOk(saveOkBtn);
 	}
-
+	
+	public boolean isAddFamilyButtonDisplayed() {
+		return saveOkBtn.isDisplayed();
+	}
+	
 	// fill the Family Information
 	public BasicInfo_LanguageInformation fillFamilyInformation(String guardianType, String fullName, String dob,
 			String occupationType, String mobCountryCode, String mobileNo, String disabilityType, String countryName,

@@ -87,6 +87,10 @@ public class Documents_PassportInformation extends BasePage {
 		blinkElement(okButton);
 		handleModalOk(okButton);
 	}
+	
+	public boolean isPassportInfoSavedSuccessfully() {
+		return okButton.isDisplayed();
+	}
 
 	// fill passport information
 	public Academics_Qualification_LastEducation fillPassportInformation(String passportNumber, String placeOfIssue,

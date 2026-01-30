@@ -63,7 +63,7 @@ public class ProfInfo_DevResearch_SciResearch extends BasePage {
 	@FindBy(name = "strPublicationUrl")
 	private WebElement publicationURLField;
 
-	@FindBy(xpath = "//div[@id='DevelopmentResearchID']//label[contains(normalize-space(),'Name Of Magzine')]//following-sibling::div//input[@name='FULLNAME']")
+	@FindBy(xpath = "//div[@id='DevelopmentResearchID']//label[contains(normalize-space(),'Name Of Magazine')]//following-sibling::div//input[@name='FULLNAME']")
 	private WebElement nameOfMagazineField;
 
 	@FindBy(xpath = "//div[@id='DevelopmentResearchID']//label[contains(normalize-space(),'Name Of Article')]//following-sibling::div//input[@name='FULLNAME']")
@@ -202,6 +202,11 @@ public class ProfInfo_DevResearch_SciResearch extends BasePage {
 		blinkElement(okButtonDevResearch);
 		handleModalOk(okButtonDevResearch);
 	}
+	
+	public boolean isDevReSciResearchInfoSavedSuccessfully() {
+		return okButtonDevResearch.isDisplayed();
+	}
+
 
 	// fillDevResearchForm method to fill the form in one go
 	public void fillDevResearchForm(String type, String publicationPrintDate, String pubLevel, String publicationURL,

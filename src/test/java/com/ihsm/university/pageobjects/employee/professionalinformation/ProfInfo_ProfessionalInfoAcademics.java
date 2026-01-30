@@ -199,6 +199,10 @@ public class ProfInfo_ProfessionalInfoAcademics extends BasePage {
 		blinkElement(okButtonSuccessPopupAcademicInfo);
 		handleModalOk(okButtonSuccessPopupAcademicInfo);
 	}
+	
+	public boolean isProfAcadInfoSavedSuccessfully() {
+		return okButtonSuccessPopupAcademicInfo.isDisplayed();
+	}
 
 	// fill the academic info form
 	public void fillAcademicInfoForm(String academicType, String docType, String dateOfEnteringAcademicDegree,

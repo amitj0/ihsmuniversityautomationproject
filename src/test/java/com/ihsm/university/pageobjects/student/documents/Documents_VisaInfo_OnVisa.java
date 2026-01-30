@@ -98,6 +98,10 @@ public class Documents_VisaInfo_OnVisa extends BasePage {
 		blinkElement(okButton);
 		handleModalOk(okButton);
 	}
+	
+	public boolean isOnlineVisaInfoSavedSuccessfully() {
+		return okButton.isDisplayed();
+	}
 
 	// fill the online visa information
 	public Documents_VisaInfo_Register fillOnlineVisaInfo(String visaType, String currentVisaExpDate,

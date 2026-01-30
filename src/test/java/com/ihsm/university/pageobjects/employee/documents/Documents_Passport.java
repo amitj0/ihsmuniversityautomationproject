@@ -18,13 +18,13 @@ public class Documents_Passport extends BasePage {
 	@FindBy(xpath = "//div[@id='divbtnpassportID']//span")
 	private WebElement addPassportBtn;
 
-	@FindBy(xpath = "//div[@id='PassportModel']//ng-select[@name='strPassportType']")
+	@FindBy(name = "strPassportType")
 	private WebElement passportTypeDropdownField;
 
 	@FindBy(xpath = "//div[contains(@class,'ng-dropdown-panel')]//div[@role='option']")
 	private List<WebElement> passportTypeDropdownOptions;
 
-	@FindBy(xpath = "(//div[@id='PassportModel']//label[contains(normalize-space(),'PASSPORT_TYPE')]/following::span[contains(@class,'addvalue')])[1]")
+	@FindBy(xpath = "(//div[@id='PassportModel']//label[contains(normalize-space(),'Passport Type')]/following::span[contains(@class,'addvalue')])[1]")
 	private WebElement addPassportTypePlusButton;
 
 	@FindBy(xpath = "//div[@id='AddMasterDataModal4']//input[@type='text']")
@@ -33,13 +33,13 @@ public class Documents_Passport extends BasePage {
 	@FindBy(xpath = "//div[@id='AddMasterDataModal4']//button[contains(@class, 'btnprimary') and text()='Save']")
 	private WebElement savePassportTypeButton;
 
-	@FindBy(xpath = "//div[@id='PassportModel']//ng-select[@name='strCountryIssueBy']")
+	@FindBy(name = "strCountryIssueBy")
 	private WebElement countryIssueByDropdownField;
 
 	@FindBy(xpath = "//div[contains(@class,'ng-dropdown-panel')]//div[@role='option']")
 	private List<WebElement> countryIssueByDropdownOptions;
 
-	@FindBy(xpath = "(//div[@id='PassportModel']//label[contains(normalize-space(),'PASSPORT_TYPE')]/following::span[contains(@class,'addvalue')])[2]")
+	@FindBy(xpath = "(//div[@id='PassportModel']//label[contains(normalize-space(),'C')]/following::span[contains(@class,'addvalue')])[1]")
 	private WebElement addCountryIssueByPlusButton;
 
 	@FindBy(name = "strAgency")
@@ -57,7 +57,7 @@ public class Documents_Passport extends BasePage {
 	@FindBy(xpath = "//div[contains(@class,'ng-dropdown-panel')]//div[@role='option']")
 	private WebElement issuePlaceDropdownOptions;
 
-	@FindBy(xpath = "(//div[@id='PassportModel']//label[contains(normalize-space(),'PASSPORT_TYPE')]/following::span[contains(@class,'addvalue')])[3]")
+	@FindBy(xpath = "(//div[@id='PassportModel']//label[contains(normalize-space(),'Place of issue')]/following::span[contains(@class,'addvalue')])[1]")
 	private WebElement addIssuePlacePlusButton;
 
 	@FindBy(xpath = "//div[@id='PassportModel']//input[@name='ISSUEDATE']")
@@ -266,6 +266,10 @@ public class Documents_Passport extends BasePage {
 	public void okButtonSuccessPopup() {
 		blinkElement(okButtonSuccessPopup);
 		handleModalOk(okButtonSuccessPopup);
+	}
+	
+	public boolean isDocPassInfoSavedSuccessfully() {
+		return okButtonSuccessPopup.isDisplayed();
 	}
 
 	// fill passport details in one method

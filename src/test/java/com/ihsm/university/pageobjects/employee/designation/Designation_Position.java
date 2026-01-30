@@ -101,6 +101,10 @@ public class Designation_Position extends BasePage {
 		blinkElement(okButtonSuccessPopup);
 		handleModalOk(okButtonSuccessPopup);
 	}
+	
+	public boolean isDesPositionInfoSavedSuccessfully() {
+		return okButtonSuccessPopup.isDisplayed();
+	}
 
 	// fill position in other organization form
 	public void fillPositionInOtherOrgForm(String rating, String startDate, String endDate, String organizationName,

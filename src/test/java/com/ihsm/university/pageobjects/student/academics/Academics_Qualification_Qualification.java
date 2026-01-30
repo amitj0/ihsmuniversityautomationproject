@@ -188,6 +188,10 @@ public class Academics_Qualification_Qualification extends BasePage {
 		safeClick(popCut);
 	}
 
+	public boolean isQualificationInfoSavedSuccessfully() {
+		return okButtonSuccessPopup.isDisplayed();
+	}
+
 	// Fill the Qualification Information
 	public Status_Status fillQualificationInformation(String qualification, String school, String certificateNo,
 			String fromDate, String issueDate, String issueDateTo, String occupation, String country, String region,

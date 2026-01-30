@@ -73,6 +73,10 @@ public class Documents_OtherDocuments extends BasePage {
 		handleModalOk(okButton);
 	}
 	
+	public boolean isOtherDocumentSavedSuccessfully() {
+		return okButton.isDisplayed();
+	}
+	
 	// fill other documents form
 	public Documents_IdentificationCard fillOtherDocumentsForm(String documentType, String filePath) {
 		clickDocumentTab();

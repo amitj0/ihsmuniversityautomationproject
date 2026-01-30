@@ -63,50 +63,13 @@ public class BasicInfo_GuardianInformation extends BasePage {
 	}
 
 	public void selectGuardianTypeOption(String guardianType) {
-
-		// Open dropdown
-		safeClick(guardianTypeDropdownField);
-
-		boolean found = false;
-
-		// Try selecting existing value
-		for (WebElement option : guardianTypeDropdownOptions) {
-			if (option.getText().trim().equalsIgnoreCase(guardianType)) {
-				safeClick(option);
-				found = true;
-				break;
-			}
-		}
-
-		// If not found → add new Guardian Type
-		if (!found) {
-
-			// Click +
-			safeClick(addGuardianTypePlusButton);
-
-			// Enter guardian type
-			safeClick(guardianTypeInputField);
-			guardianTypeInputField.sendKeys(guardianType);
-
-			// Save
-			safeClick(saveGuardianTypeButton);
-
-			// Ok
-			safeClick(okButtonSuccessPopup);
-
-			// Reopen dropdown
-			safeClick(guardianTypeDropdownField);
-
-			// Select newly added value
-			for (WebElement option : guardianTypeDropdownOptions) {
-				if (option.getText().trim().equalsIgnoreCase(guardianType)) {
-					safeClick(option);
-					return;
-				}
-			}
-
-			throw new RuntimeException("Guardian Type value not found even after adding: " + guardianType);
-		}
+		selectNgDropdownValue(guardianTypeDropdownField, // dropdown element
+				guardianType, // value to select
+				addGuardianTypePlusButton, // "+" button
+				guardianTypeInputField, // input for new value
+				saveGuardianTypeButton, // save button
+				okButtonSuccessPopup // OK button on success modal
+		);
 	}
 
 	public void guardianFullNameField(String guardianFullName) {
@@ -150,9 +113,13 @@ public class BasicInfo_GuardianInformation extends BasePage {
 		handleModalOk(okButtonSuccessPopup);
 	}
 
+	public boolean isGuardianInfoSavedSuccessfully() {
+		return okButtonSuccessPopup.isDisplayed();
+	}
+
 	// fill the guardian information form
-	public BasicInfo_LanguageInformation fillGuardianInformationForm(String guardianType, String guardianFullName, String guardianDob,
-			String guardianDisability) {
+	public BasicInfo_LanguageInformation fillGuardianInformationForm(String guardianType, String guardianFullName,
+			String guardianDob, String guardianDisability) {
 		addGuardianInfoBtn();
 		selectGuardianTypeOption(guardianType);
 		guardianFullNameField(guardianFullName);

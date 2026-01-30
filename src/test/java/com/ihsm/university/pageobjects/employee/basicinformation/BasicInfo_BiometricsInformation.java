@@ -52,6 +52,10 @@ public class BasicInfo_BiometricsInformation extends BasePage {
 		blinkElement(okButtonSuccessPopup);
 		handleModalOk(okButtonSuccessPopup);
 	}
+	
+	public boolean isBiometricsInfoAdded() {
+		return okButtonSuccessPopup.isDisplayed();
+	}
 
 	// fill biometrics info here
 	public Designation_EmploymentRights fillBiometricsInfo(String filePath) {

@@ -73,6 +73,10 @@ public class BasicInfo_MedicalInforamtion_AtPoly extends BasePage {
 		blinkElement(okButtonSuccessPopup);
 		handleModalOk(okButtonSuccessPopup);
 	}
+	
+	public boolean isAtPolyInfoSavedSuccessfully() {
+		return okButtonSuccessPopup.isDisplayed();
+	}
 
 	// fill the AtPoly medical information form
 	public BasicInfo_MedicalInformation_Insurance fillAtPolyMedicalInformation(String date, String type,

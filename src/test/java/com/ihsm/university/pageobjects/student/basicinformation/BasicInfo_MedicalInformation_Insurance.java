@@ -21,7 +21,7 @@ public class BasicInfo_MedicalInformation_Insurance extends BasePage {
 	@FindBy(xpath = "//a[@href='#tab27']")
 	private WebElement insuranceTab;
 
-	@FindBy(xpath = "//div[@id='tab27']//input[@placeholder='DATE_FROM']")
+	@FindBy(xpath = "//div[@id='tab27']//input[@placeholder='Date From']")
 	private WebElement insuranceDateFromField;
 
 	@FindBy(xpath = "//div[@id='tab27']//input[@placeholder='Date To']")
@@ -72,6 +72,10 @@ public class BasicInfo_MedicalInformation_Insurance extends BasePage {
 	public void clickOkButtonSuccessPopup() {
 		blinkElement(okButtonSuccessPopup);
 		handleModalOk(okButtonSuccessPopup);
+	}
+	
+	public boolean isInsuranceInfoSavedSuccessfully() {
+		return okButtonSuccessPopup.isDisplayed();
 	}
 
 	// fill the insurance information

@@ -144,7 +144,11 @@ public class Academics_Qualification_LastEducation extends BasePage {
 		blinkElement(popCut);
 		safeClick(popCut);
 	}
-
+	
+	public boolean isLastEduInfoSavedSuccessfully() {
+		return okButtonSuccessPopup.isDisplayed();
+	}
+	
 	// fill the Last Education information
 	public Academics_Qualification_Diploma fillLastEducationInfo(String eduType, String school, String startDate,
 			String endDate, String docDate, String docFieldNo, String subject, String marks, String file) {

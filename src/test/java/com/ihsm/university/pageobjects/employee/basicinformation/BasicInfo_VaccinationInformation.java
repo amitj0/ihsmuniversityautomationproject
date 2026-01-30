@@ -1,12 +1,8 @@
 package com.ihsm.university.pageobjects.employee.basicinformation;
 
-import java.util.List;
-
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
 import com.ihsm.university.base.BasePage;
 
 public class BasicInfo_VaccinationInformation extends BasePage {
@@ -22,10 +18,6 @@ public class BasicInfo_VaccinationInformation extends BasePage {
 	@FindBy(xpath = "//div[@id='VaccinationModelID']//ng-select[@name='strVaccinationType']")
 	private WebElement vaccinationTypeDropdownField;
 
-	private List<WebElement> getDropdownOptions() {
-		return driver.findElements(By.xpath("//div[contains(@class,'ng-dropdown-panel')]//div[@role='option']"));
-	}
-
 	@FindBy(xpath = "//div[@id='VaccinationModelID']//label[contains(normalize-space(),'Type')]/following::span[contains(@class,'addvalue')][1]")
 	private WebElement addVaccinationTypePlusButton;
 
@@ -35,11 +27,23 @@ public class BasicInfo_VaccinationInformation extends BasePage {
 	@FindBy(xpath = "//div[@id='AddMasterDataModal']//button[contains(@class, 'btnprimary') and text()='Save']")
 	private WebElement saveVaccinationTypeButton;
 
-	@FindBy(xpath = "(//div[@id='VaccinationModelID']//div[@class='input-group'])[2]")
+	@FindBy(xpath = "//div[@id='VaccinationModelID']//ng-select[@name='intdose']")
 	private WebElement vaccinationPhaseDropdownField;
 
 	@FindBy(xpath = "//div[@id='VaccinationModelID']//label[contains(normalize-space(),'Phase')]/following::span[contains(@class,'addvalue')][1]")
 	private WebElement addVaccinationPhasePlusButton;
+
+	@FindBy(xpath = "//div[@id='AddMasterDataModal']//input[@name='strMasterName']")
+	private WebElement addVaccFieldInput;
+
+	@FindBy(xpath = "//div[@id='AddMasterDataModal']//button[contains(@class, 'btnprimary') and text()='Save']")
+	private WebElement addSaveBtn;
+
+	@FindBy(xpath = "//div[@id='VaccinationModelID']//button[contains(@class, 'btnprimary') and text()='Save']")
+	private WebElement saveButton;
+
+	@FindBy(xpath = "//div[@id='AlertSuccesModal' and contains(@class,'show')]//button[normalize-space()='Ok']")
+	private WebElement okButton;
 
 	@FindBy(name = "strVaccinationCertificateNumber")
 	private WebElement vaccinationCertificateNumberField;
@@ -67,50 +71,8 @@ public class BasicInfo_VaccinationInformation extends BasePage {
 	}
 
 	public void selectVaccinationTypeOption(String vaccinationType) {
-
-		// Open dropdown
-		safeClick(vaccinationTypeDropdownField);
-
-		boolean found = false;
-
-		// Try selecting existing value
-		for (WebElement option : getDropdownOptions()) {
-			if (option.getText().trim().equalsIgnoreCase(vaccinationType)) {
-				safeClick(option);
-				found = true;
-				break;
-			}
-		}
-
-		// If not found → add new Vaccination Type
-		if (!found) {
-
-			// Click +
-			safeClick(addVaccinationTypePlusButton);
-
-			// Enter vaccination type
-			safeClick(vaccinationTypeInputField);
-			vaccinationTypeInputField.sendKeys(vaccinationType);
-
-			// Save
-			safeClick(saveVaccinationTypeButton);
-
-			// Ok
-			safeClick(okButtonSuccessPopup);
-
-			// Reopen dropdown
-			safeClick(vaccinationTypeDropdownField);
-
-			// Select newly added value
-			for (WebElement option : getDropdownOptions()) {
-				if (option.getText().trim().equalsIgnoreCase(vaccinationType)) {
-					safeClick(option);
-					return;
-				}
-			}
-
-			throw new RuntimeException("Vaccination Type value not found even after adding: " + vaccinationType);
-		}
+		selectNgDropdownValue(vaccinationTypeDropdownField, vaccinationType, addVaccinationTypePlusButton,
+				vaccinationTypeInputField, saveVaccinationTypeButton, okButtonSuccessPopup);
 	}
 
 	public void vaccinationPhaseDropdownField() {
@@ -118,50 +80,12 @@ public class BasicInfo_VaccinationInformation extends BasePage {
 	}
 
 	public void selectVaccinationPhaseOption(String vaccinationPhase) {
-
-		// Open dropdown
-		safeClick(vaccinationPhaseDropdownField);
-
-		boolean found = false;
-
-		// Try selecting existing value
-		for (WebElement option : getDropdownOptions()) {
-			if (option.getText().trim().equalsIgnoreCase(vaccinationPhase)) {
-				safeClick(option);
-				found = true;
-				break;
-			}
-		}
-
-		// If not found → add new Vaccination Phase
-		if (!found) {
-
-			// Click +
-			safeClick(addVaccinationPhasePlusButton);
-
-			// Enter vaccination phase
-			safeClick(vaccinationTypeInputField);
-			vaccinationTypeInputField.sendKeys(vaccinationPhase);
-
-			// Save
-			safeClick(saveVaccinationTypeButton);
-
-			// Ok
-			safeClick(okButtonSuccessPopup);
-
-			// Reopen dropdown
-			safeClick(vaccinationPhaseDropdownField);
-
-			// Select newly added value
-			for (WebElement option : getDropdownOptions()) {
-				if (option.getText().trim().equalsIgnoreCase(vaccinationPhase)) {
-					safeClick(option);
-					return;
-				}
-			}
-
-			throw new RuntimeException("Vaccination Phase value not found even after adding: " + vaccinationPhase);
-		}
+		selectNgDropdownValue(vaccinationPhaseDropdownField, // dropdown
+				vaccinationPhase, // value
+				addVaccinationPhasePlusButton, // "+" button for phase
+				addVaccFieldInput, // input field for new phase
+				addSaveBtn, // save button in modal
+				okButton); // OK modal button
 	}
 
 	public void fillVaccinationCertificateNumber(String certificateNumber) {
@@ -191,6 +115,10 @@ public class BasicInfo_VaccinationInformation extends BasePage {
 	public void okButtonSuccessPopup() {
 		blinkElement(okButtonSuccessPopup);
 		handleModalOk(okButtonSuccessPopup);
+	}
+
+	public boolean isVaccInfoSavedSuccessfully() {
+		return okButtonSuccessPopup.isDisplayed();
 	}
 
 	// fill the vaccination form

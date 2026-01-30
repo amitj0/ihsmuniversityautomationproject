@@ -27,7 +27,7 @@ public class BasePage {
 	protected static WebDriver driver;
 	protected WebDriverWait wait;
 	private static final Duration WAIT_TIMEOUT = Duration
-			.ofSeconds(Integer.parseInt(System.getProperty("wait.timeout", "10")));
+			.ofSeconds(Integer.parseInt(System.getProperty("wait.timeout", "5")));
 
 	protected static Logger logger;
 
@@ -152,20 +152,93 @@ public class BasePage {
 		}
 	}
 
+	public boolean isElementPresent(WebElement element) {
+		try {
+			element.isDisplayed();
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	public void selectNgDropdownValue(WebElement dropdown, String value, WebElement addButton, WebElement inputField,
+			WebElement saveButton, WebElement okButton) {
+
+		// Open dropdown
+
+		safeClick(dropdown.findElement(By.xpath(".//div[contains(@class,'ng-select-container')]")));
+
+		// Wait for dropdown panel
+		WebElement panel = new WebDriverWait(driver, Duration.ofSeconds(2)).until(
+				ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'ng-dropdown-panel')]")));
+
+		// Get all options
+		List<WebElement> options = panel.findElements(By.xpath(".//div[@role='option']"));
+
+		boolean found = false;
+
+		for (WebElement option : options) {
+
+			String text = option.findElement(By.xpath(".//span[contains(@class,'ng-option-label')]")).getText().trim();
+
+			if (text.equalsIgnoreCase(value)) {
+				safeClick(option);
+				found = true;
+				break;
+			}
+		}
+
+		// If not found → add new
+		if (!found) {
+
+			safeClick(addButton);
+			safeClick(inputField);
+			inputField.sendKeys(value);
+			safeClick(saveButton);
+			safeClick(okButton);
+
+			// reopen & retry
+			safeClick(dropdown);
+
+			panel = new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions
+					.visibilityOfElementLocated(By.xpath("//div[contains(@class,'ng-dropdown-panel')]")));
+
+			options = panel.findElements(By.xpath(".//div[@role='option']"));
+
+			for (WebElement option : options) {
+
+				String text = option.findElement(By.xpath(".//span[contains(@class,'ng-option-label')]")).getText()
+						.trim();
+
+				if (text.equalsIgnoreCase(value)) {
+					safeClick(option);
+					return;
+				}
+			}
+
+			throw new RuntimeException("Failed to select value: " + value);
+		}
+	}
+
 	public void handleModalOk(WebElement okButton) {
 		try {
-			// Ensure no JS alert is blocking
 			handleAlertIfPresent();
 
-			WebDriverWait modalWait = new WebDriverWait(driver, Duration.ofSeconds(5));
-			WebElement ok = modalWait.until(ExpectedConditions.elementToBeClickable(okButton));
-			ok.click();
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 
-			// Wait until modal disappears
-			modalWait.until(d -> d.findElements(By.cssSelector(".modal.show")).isEmpty());
+			if (isElementPresent(okButton)) {
 
-		} catch (TimeoutException e) {
-			logger.debug("Modal not present or already closed");
+				WebElement ok = wait.until(ExpectedConditions.elementToBeClickable(okButton));
+				ok.click();
+
+				wait.until(ExpectedConditions.invisibilityOf(okButton));
+				logger.info("Modal OK clicked");
+			} else {
+				logger.debug("Modal not present");
+			}
+
+		} catch (Exception e) {
+			logger.debug("Modal handling skipped safely");
 		}
 	}
 
@@ -230,17 +303,26 @@ public class BasePage {
 		}
 	}
 
-	protected boolean handleAlertIfPresent() {
+	/*
+	 * protected boolean handleAlertIfPresent() { try { WebDriverWait alertWait =
+	 * new WebDriverWait(driver, Duration.ofSeconds(1)); Alert alert =
+	 * alertWait.until(ExpectedConditions.alertIsPresent());
+	 * 
+	 * logger.warn("Browser alert detected: {}", alert.getText()); alert.accept();
+	 * return true;
+	 * 
+	 * } catch (TimeoutException e) { return false; // No alert appeared } }
+	 */
+
+	public void handleAlertIfPresent() {
 		try {
-			WebDriverWait alertWait = new WebDriverWait(driver, Duration.ofSeconds(1));
-			Alert alert = alertWait.until(ExpectedConditions.alertIsPresent());
-
-			logger.warn("Browser alert detected: {}", alert.getText());
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
+			Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+			String text = alert.getText();
+			logger.info("Alert detected: " + text);
 			alert.accept();
-			return true;
-
-		} catch (TimeoutException e) {
-			return false; // No alert appeared
+		} catch (TimeoutException | NoAlertPresentException e) {
+			// No alert found → do nothing
 		}
 	}
 

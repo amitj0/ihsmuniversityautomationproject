@@ -116,48 +116,13 @@ public class BasicInfo_EnrollnmentInformation extends BasePage {
 	}
 
 	public void selectCitizenshipOption(String citizenship) {
-
-		safeClick(citizenshipDropdownField);
-
-		boolean found = false;
-
-		for (WebElement option : citizenshipDropdownOptions) {
-			if (option.getText().trim().equalsIgnoreCase(citizenship)) {
-				safeClick(option);
-				found = true;
-				break;
-			}
-		}
-
-		// If not found → add new citizenship
-		if (!found) {
-
-			// Click +
-			safeClick(addCitizenshipPlusButton);
-
-			// Enter citizenship
-			safeClick(citizenshipInputField);
-			citizenshipInputField.sendKeys(citizenship);
-
-			// Save
-			safeClick(saveCitizenshipButton);
-
-			// Ok
-			safeClick(saveOkButtonEnrollnmentInfo);
-
-			// Reopen dropdown
-			safeClick(citizenshipDropdownField);
-
-			// Select newly added value
-			for (WebElement option : citizenshipDropdownOptions) {
-				if (option.getText().trim().equalsIgnoreCase(citizenship)) {
-					safeClick(option);
-					return;
-				}
-			}
-
-			throw new RuntimeException("Citizenship value not found even after adding: " + citizenship);
-		}
+		selectNgDropdownValue(citizenshipDropdownField, // dropdown element
+				citizenship, // value to select
+				addCitizenshipPlusButton, // "+" button
+				citizenshipInputField, // input field for new value
+				saveCitizenshipButton, // save button
+				saveOkButtonEnrollnmentInfo // OK button on modal
+		);
 	}
 
 	public void clickSaveButtonEnrollnmentInfo() {
@@ -176,9 +141,13 @@ public class BasicInfo_EnrollnmentInformation extends BasePage {
 		handleModalOk(saveOkButtonEnrollnmentInfo);
 	}
 
+	public boolean isEnrollnmentSavedSuccessfully() {
+		return saveOkButtonEnrollnmentInfo.isDisplayed();
+	}
+
 	// fill the enrollnment information form
-	public BasicInfo_PersonalInformation fillEnrollnmentInformationForm(String firstName, String nameInEnglish, String gender, String iinNumber,
-			String email, String citizenship) {
+	public BasicInfo_PersonalInformation fillEnrollnmentInformationForm(String firstName, String nameInEnglish,
+			String gender, String iinNumber, String email, String citizenship) {
 		clickEmploymentDetailsTab();
 		clickEnrollnmentInformationLink();
 		clickAddEnrollnmentInfoBtn();

@@ -83,6 +83,10 @@ public class Documents_IdentificationCard extends BasePage {
 		handleModalOk(okButton);
 	}
 
+	public boolean isIdentificationCardDetailsSavedSuccessfully() {
+		return okButton.isDisplayed();
+	}
+	
 	// fill identification card details
 	public Documents_VisaInfo_OffVisa fillIdentificationCardDetails(String idNumber, String issuePlace, String issueDate, String expiryDate,
 			String filePath) {

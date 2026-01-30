@@ -150,6 +150,10 @@ public class ProfInfo_DevResearch_Attestations extends BasePage {
 		blinkElement(okButtonAttestations);
 		handleModalOk(okButtonAttestations);
 	}
+	
+	public boolean isAttestationsSavedSuccessfully() {
+		return okButtonAttestations.isDisplayed();
+	}
 
 	// fill the Attestations form
 	public void fillAttestationsForm(String universityRules, String communityCompetition, String personality,

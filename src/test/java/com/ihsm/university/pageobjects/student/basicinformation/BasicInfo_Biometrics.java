@@ -51,6 +51,10 @@ public class BasicInfo_Biometrics extends BasePage {
 		blinkElement(saveOkBtn);
 		handleModalOk(saveOkBtn);
 	}
+	
+	public boolean isBioInfoSavedSuccessfully() {
+		return saveOkBtn.isDisplayed();
+	}
 
 	// fill biometrics info here
 	public BasicInfo_FamilyInformation fillBiometricsInfo(String filePath) {

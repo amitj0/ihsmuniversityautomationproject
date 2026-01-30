@@ -217,6 +217,10 @@ public class ProfInfo_ProfessionalInfoDegreeLvl extends BasePage {
 		blinkElement(okButton);
 		handleModalOk(okButton);
 	}
+	
+	public boolean isDegLvlInfoSavedSuccessfully() {
+		return okButton.isDisplayed();
+	}
 
 	// fill the degree information here
 	public void fillProfessionalInformationForm(String degree, String sphere, String org, String diplomaNo,

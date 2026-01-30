@@ -99,6 +99,10 @@ public class Status_Status extends BasePage {
 		handleModalOk(okButtonSuccessPopup);
 		refreshPageSafely();
 	}
+	
+	public boolean isStatusStatusSavedSuccessfully() {
+		return okButtonSuccessPopup.isDisplayed();
+	}
 
 	// fill status status form
 	public Status_ExamStatus fillStatusStatusForm(String statusOption, String date, String orderNo, String comments,

@@ -56,7 +56,7 @@ public class BasicInfo_EnrollnmentInformation extends BasePage {
 	@FindBy(xpath = "//div[@id='EnrollmentInformationId']//input[@name='FIRSTNAME']")
 	private WebElement firstNameField;
 
-	@FindBy(xpath = "//div[@id='EnrollmentInformationId']//input[@placeholder='MIDDLE_NAME']")
+	@FindBy(xpath = "//div[@id='EnrollmentInformationId']//input[@placeholder='Middle Name']")
 	private WebElement middleNameField;
 
 	@FindBy(xpath = "//div[@id='EnrollmentInformationId']//input[@name='LASTNAME']")
@@ -269,6 +269,10 @@ public class BasicInfo_EnrollnmentInformation extends BasePage {
 	public void alertOkBtn() {
 		blinkElement(alertOkBtn);
 		handleModalOk(alertOkBtn);
+	}
+	
+	public boolean isEnrollmentInfoSavedSuccessfully() {
+		return alertOkBtn.isDisplayed();
 	}
 
 	// Fill the Enrollment Information

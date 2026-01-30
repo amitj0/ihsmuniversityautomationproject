@@ -27,6 +27,20 @@ public class Documents_VisaInfo_OffVisa extends BasePage {
 
 	@FindBy(xpath = "//div[contains(@class,'ng-dropdown-panel')]//div[@role='option']")
 	private List<WebElement> visaTypeFieldList;
+	
+	@FindBy(xpath = "(//div[@id='STUDENTVISA']//label[contains(normalize-space(),'Visa Type')]/following::span[contains(@class,'addvalue')])[1]")
+	private WebElement addVisaTypePlusButton;
+	
+	@FindBy(xpath = "//div[@id='AddMasterDataModal1']//input[@name='ENTER_VALUE']")
+	private WebElement visaTypeInputField;
+	
+	@FindBy(xpath = "//div[@id='AddMasterDataModal1']//button[contains(@class, 'btnprimary') and text()='Save']")
+	private WebElement saveVisaTypeButton;
+	
+	
+	@FindBy(xpath = "//div[@id='AlertSuccesModal' and contains(@class,'show')]//button[normalize-space()='Ok']")
+	private WebElement okButtonVisaType;
+	
 
 	@FindBy(xpath = "(//div[@id='STUDENTVISA']//label[contains(text(),'Select Address')]/following-sibling::div[1]//ng-select[@name='DOCUMENTTYPE'])[1]")
 	private WebElement selectAddField;
@@ -75,7 +89,7 @@ public class Documents_VisaInfo_OffVisa extends BasePage {
 	public void selectVisaType(String visaType) {
 		safeClick(visaTypeField);
 		for (WebElement option : visaTypeFieldList) {
-			if (option.getText().equalsIgnoreCase(visaType)) {
+			if (option.getText().trim().equalsIgnoreCase(visaType)) {
 				safeClick(option);
 				return;
 			}
@@ -127,6 +141,10 @@ public class Documents_VisaInfo_OffVisa extends BasePage {
 	public void clickOkButton() {
 		blinkElement(okButton);
 		handleModalOk(okButton);
+	}
+	
+	public boolean isVisaInfoOffVisaSavedSuccessfully() {
+		return okButton.isDisplayed();
 	}
 	
 	// fill visa info offline visa form

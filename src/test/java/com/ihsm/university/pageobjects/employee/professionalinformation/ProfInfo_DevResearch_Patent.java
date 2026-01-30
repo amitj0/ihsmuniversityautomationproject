@@ -203,6 +203,10 @@ public class ProfInfo_DevResearch_Patent extends BasePage {
 		handleModalOk(okButtonPatent);
 	}
 
+	public boolean isPatentFormDisplayed() {
+		return okButtonPatent.isDisplayed();
+	}
+
 	// fillDevResearchPatentForm method to fill the form in one go
 	public void fillDevResearchPatentForm(String patentType, String inventionTitle, String patentLevel,
 			String patentAuthors, String patentOrganization, String patentDate, String regNoteNumber, String notes) {

@@ -135,6 +135,10 @@ public class ProfInfo_Military extends BasePage {
 		handleModalOk(okButtonMilitry);
 	}
 
+	public boolean isMilitaryInfoSectionDisplayed() {
+		return addMilitaryInfoBtn.isDisplayed();
+	}
+
 	// fill military information form
 	public void fillMilitaryInformationForm(String rank, String militaryOrder, String militaryOrderDate, String notes) {
 

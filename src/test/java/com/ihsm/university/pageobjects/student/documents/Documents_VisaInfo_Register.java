@@ -90,6 +90,10 @@ public class Documents_VisaInfo_Register extends BasePage {
 		blinkElement(okButton);
 		handleModalOk(okButton);
 	}
+	
+	public boolean isRegisterInfoSavedSuccessfully() {
+		return okButton.isDisplayed();
+	}
 
 	// fill the register information
 
