@@ -1,11 +1,14 @@
 package com.ihsm.university.pageobjects.student.documents;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.List;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.ihsm.university.base.BasePage;
 
@@ -57,16 +60,27 @@ public class Documents_VisaInfo_OnVisa extends BasePage {
 		safeClick(onlineVisaTab);
 	}
 
-	public void selectVisaType(String visaType) {
-		safeClick(visaTypeField);
-		for (WebElement option : visaTypeFieldList) {
-			if (option.getText().trim().equalsIgnoreCase(visaType)) {
-				safeClick(option);
-				return;
-			}
-		}
-	}
+	/*
+	 * public void selectVisaType(String visaType) { safeClick(visaTypeField); for
+	 * (WebElement option : visaTypeFieldList) { if
+	 * (option.getText().trim().equalsIgnoreCase(visaType)) { safeClick(option);
+	 * return; } } }
+	 */
 
+	public void selectVisaType(String visaType) {
+	    safeClick(visaTypeField);
+	    
+	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+	    wait.until(ExpectedConditions.visibilityOfAllElements(visaTypeFieldList));
+	    
+	    for (WebElement option : visaTypeFieldList) {
+	        if (option.getText().trim().equalsIgnoreCase(visaType)) {
+	            wait.until(ExpectedConditions.elementToBeClickable(option));
+	            option.click();
+	            return;
+	        }
+	    }
+	}
 	public void enterCurrentVisaExpDate(String currentVisaExpDate) {
 		currentVisaExpDateField.sendKeys(currentVisaExpDate);
 	}

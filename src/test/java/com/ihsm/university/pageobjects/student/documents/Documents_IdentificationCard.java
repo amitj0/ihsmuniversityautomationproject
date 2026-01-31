@@ -82,6 +82,8 @@ public class Documents_IdentificationCard extends BasePage {
 		blinkElement(okButton);
 		handleModalOk(okButton);
 	}
+	
+	
 
 	public boolean isIdentificationCardDetailsSavedSuccessfully() {
 		return okButton.isDisplayed();

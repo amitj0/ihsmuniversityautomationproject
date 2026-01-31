@@ -15,8 +15,6 @@ public class Academics_Qualification_Diploma extends BasePage {
 	}
 
 	// locate the web element here
-	@FindBy(xpath = "//span[@data-bs-target='#divQualificationModel']")
-	private WebElement qualificationTab;
 
 	@FindBy(xpath = "//a[@href='#tab301']")
 	private WebElement qualDiplomaTab;
@@ -59,18 +57,10 @@ public class Academics_Qualification_Diploma extends BasePage {
 
 	@FindBy(xpath = "//div[@id='AlertSuccesModal' and contains(@class,'show')]//button[normalize-space()='Ok']")
 	private WebElement okButtonSuccessPopup;
-
-	// developer mistake here
-	@FindBy(xpath = "//div[@id='divQualificationModel']//div[contains(@class,'modal-header')]//button[@data-bs-dismiss='modal']")
-	private WebElement popCut;
-
-	// methods to perform actions on the web elements
-	public void qualificationTab() {
-		safeClick(qualificationTab);
-	}
+	
+	// method to perform the action
 
 	public void qualDiplomaTab() {
-		blinkElement(qualDiplomaTab);
 		safeClick(qualDiplomaTab);
 	}
 
@@ -134,11 +124,6 @@ public class Academics_Qualification_Diploma extends BasePage {
 		handleModalOk(okButtonSuccessPopup);
 	}
 
-	public void popCut() {
-		blinkElement(popCut);
-		safeClick(popCut);
-	}
-	
 	public boolean isQualificationDiplomaSavedSuccessfully() {
 		return okButtonSuccessPopup.isDisplayed();
 	}
@@ -147,7 +132,7 @@ public class Academics_Qualification_Diploma extends BasePage {
 	public Academics_Qualification_Qualification fillDiplomaDetails(String serialNo, String documentNo,
 			String certificateNo, String protectionDate, String diplomaDate, String studentProfession, String advice,
 			String topicOfDiploma, String transcriptNo, String dateOfTranscript, String documentFilePath) {
-		qualificationTab();
+
 		qualDiplomaTab();
 		enterSerialNo(serialNo);
 		enterDocumentNo(documentNo);
@@ -162,7 +147,7 @@ public class Academics_Qualification_Diploma extends BasePage {
 		uploadDocument(documentFilePath);
 		saveQualificationDiploma();
 		okButtonSuccessPopup();
-		popCut();
+
 		return new Academics_Qualification_Qualification(driver);
 
 	}

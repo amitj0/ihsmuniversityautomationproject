@@ -1,5 +1,7 @@
 package com.ihsm.university.pageobjects.employee.basicinformation;
 
+import java.util.List;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -26,6 +28,8 @@ public class BasicInfo_VaccinationInformation extends BasePage {
 
 	@FindBy(xpath = "//div[@id='AddMasterDataModal']//button[contains(@class, 'btnprimary') and text()='Save']")
 	private WebElement saveVaccinationTypeButton;
+
+	// phase
 
 	@FindBy(xpath = "//div[@id='VaccinationModelID']//ng-select[@name='intdose']")
 	private WebElement vaccinationPhaseDropdownField;
@@ -66,19 +70,20 @@ public class BasicInfo_VaccinationInformation extends BasePage {
 		safeClick(addVaccinationInfoBtn);
 	}
 
-	public void vaccinationTypeDropdownField() {
-		safeClick(vaccinationTypeDropdownField);
-	}
+	/*
+	 * public void vaccinationTypeDropdownField() {
+	 * safeClick(vaccinationTypeDropdownField); }
+	 */
 
 	public void selectVaccinationTypeOption(String vaccinationType) {
 		selectNgDropdownValue(vaccinationTypeDropdownField, vaccinationType, addVaccinationTypePlusButton,
-				vaccinationTypeInputField, saveVaccinationTypeButton, okButtonSuccessPopup);
+				vaccinationTypeInputField, saveVaccinationTypeButton, okButton);
 	}
 
-	public void vaccinationPhaseDropdownField() {
-		safeClick(vaccinationPhaseDropdownField);
-	}
-
+	/*
+	 * public void vaccinationPhaseDropdownField() {
+	 * safeClick(vaccinationPhaseDropdownField); }
+	 */
 	public void selectVaccinationPhaseOption(String vaccinationPhase) {
 		selectNgDropdownValue(vaccinationPhaseDropdownField, // dropdown
 				vaccinationPhase, // value
@@ -125,9 +130,9 @@ public class BasicInfo_VaccinationInformation extends BasePage {
 	public BasicInfo_BiometricsInformation fillVaccinationForm(String vaccinationType, String vaccinationPhase,
 			String certificateNumber, String vaccinationDate, String remarks) {
 		addVaccinationInfoBtn();
-		vaccinationTypeDropdownField();
+//		vaccinationTypeDropdownField();
 		selectVaccinationTypeOption(vaccinationType);
-		vaccinationPhaseDropdownField();
+//		vaccinationPhaseDropdownField();
 		selectVaccinationPhaseOption(vaccinationPhase);
 		fillVaccinationCertificateNumber(certificateNumber);
 		fillVaccinationDate(vaccinationDate);

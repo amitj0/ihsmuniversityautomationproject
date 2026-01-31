@@ -60,7 +60,7 @@ public class Academics_Qualification_LastEducation extends BasePage {
 
 	@FindBy(xpath = "//div[@id='AlertSuccesModal' and contains(@class,'show')]//button[normalize-space()='Ok']")
 	private WebElement okButtonSuccessPopup;
-	
+
 	@FindBy(xpath = "//div[@id='divQualificationModel']//div[contains(@class,'modal-header')]//button[@data-bs-dismiss='modal']")
 	private WebElement popCut;
 
@@ -70,7 +70,6 @@ public class Academics_Qualification_LastEducation extends BasePage {
 	}
 
 	public void qualificationTab() {
-		blinkElement(qualificationTab);
 		safeClick(qualificationTab);
 	}
 
@@ -139,16 +138,11 @@ public class Academics_Qualification_LastEducation extends BasePage {
 		blinkElement(okButtonSuccessPopup);
 		handleModalOk(okButtonSuccessPopup);
 	}
-	
-	public void popCut() {
-		blinkElement(popCut);
-		safeClick(popCut);
-	}
-	
+
 	public boolean isLastEduInfoSavedSuccessfully() {
 		return okButtonSuccessPopup.isDisplayed();
 	}
-	
+
 	// fill the Last Education information
 	public Academics_Qualification_Diploma fillLastEducationInfo(String eduType, String school, String startDate,
 			String endDate, String docDate, String docFieldNo, String subject, String marks, String file) {
@@ -167,7 +161,7 @@ public class Academics_Qualification_LastEducation extends BasePage {
 		uploadDocument(file);
 		saveLastEducationDetails();
 		handleSuccessPopup();
-		popCut();
+
 		return new Academics_Qualification_Diploma(driver);
 	}
 

@@ -9,37 +9,35 @@ import com.ihsm.university.utilities.FlowStateUtils;
 
 public class IHSM_FullStatusFlowTest extends BaseClass {
 
-    
-    public void verifyFullStatusInformation() throws Exception {
+	@Test
+	public void verifyFullStatusInformation() throws Exception {
 
-        logger.info("===== STARTING FULL STATUS FLOW =====");
+		logger.info("===== STARTING FULL STATUS FLOW =====");
 
-        FlowStep lastStep = FlowStateUtils.getLastCompletedStep();
+		FlowStep lastStep = FlowStateUtils.getLastCompletedStep();
 
-        if (shouldRun(lastStep, FlowStep.STATUS)) {
-            fillStatus();
-            FlowStateUtils.saveStep(FlowStep.STATUS);
-        }
+		if (shouldRun(lastStep, FlowStep.STATUS)) {
+			fillStatus();
+			FlowStateUtils.saveStep(FlowStep.STATUS);
+			lastStep = FlowStep.STATUS;
 
-        logger.info("===== FULL STATUS FLOW COMPLETED SUCCESSFULLY =====");
-    }
+		}
 
-    /* ================= FLOW CONTROL ================= */
-    private boolean shouldRun(FlowStep last, FlowStep current) {
-        return last == null || last.ordinal() < current.ordinal();
-    }
+		logger.info("===== FULL STATUS FLOW COMPLETED SUCCESSFULLY =====");
+	}
 
-    /* ================= STEP METHODS ================= */
-    private void fillStatus() {
-        logger.info("Filling Status Information...");
+	/* ================= FLOW CONTROL ================= */
+	private boolean shouldRun(FlowStep last, FlowStep current) {
+		return last == null || last.ordinal() < current.ordinal();
+	}
 
-        new Status_Status(getDriver())
-            .fillStatusStatusForm(
-                StudentFullRegistrationDataVariables.status,
-                StudentFullRegistrationDataVariables.statusDate,
-                StudentFullRegistrationDataVariables.statusCode,
-                StudentFullRegistrationDataVariables.statusRemarks,
-                getTestDataPath(StudentFullRegistrationDataVariables.statusImage)
-            );
-    }
+	/* ================= STEP METHODS ================= */
+	private void fillStatus() {
+		logger.info("Filling Status Information...");
+
+		new Status_Status(getDriver()).fillStatusStatusForm(StudentFullRegistrationDataVariables.status,
+				StudentFullRegistrationDataVariables.statusDate, StudentFullRegistrationDataVariables.statusCode,
+				StudentFullRegistrationDataVariables.statusRemarks,
+				getTestDataPath(StudentFullRegistrationDataVariables.statusImage));
+	}
 }

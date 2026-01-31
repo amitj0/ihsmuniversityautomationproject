@@ -24,7 +24,7 @@ public class Documents_Passport extends BasePage {
 	@FindBy(xpath = "//div[contains(@class,'ng-dropdown-panel')]//div[@role='option']")
 	private List<WebElement> passportTypeDropdownOptions;
 
-	@FindBy(xpath = "(//div[@id='PassportModel']//label[contains(normalize-space(),'Passport Type')]/following::span[contains(@class,'addvalue')])[1]")
+	@FindBy(xpath = "(//div[@id='PassportModel']//label[contains(normalize-space(),'P')]/following::span[contains(@class,'addvalue')])[1]")
 	private WebElement addPassportTypePlusButton;
 
 	@FindBy(xpath = "//div[@id='AddMasterDataModal4']//input[@type='text']")

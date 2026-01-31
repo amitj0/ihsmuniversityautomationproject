@@ -44,11 +44,16 @@ public class IHSM_FullBasicInformationFlow extends BaseClass {
 		logger.info("Employee Language Information submitted successfully");
 
 		// Vaccination Information
-		logger.info("Filling Employee Vaccination Information...");
-		BasicInfo_VaccinationInformation vaccinationInfo = new BasicInfo_VaccinationInformation(getDriver());
-		vaccinationInfo.fillVaccinationForm(TestDataGenerator.randomVaccinationType(), TestDataGenerator.randomVaccinationPhase(),
-				TestDataGenerator.randomNumber(5), "01012026", TestDataGenerator.randomNotes());
-		logger.info("Employee Vaccination Information submitted successfully");
+		/*
+		 * logger.info("Filling Employee Vaccination Information...");
+		 * BasicInfo_VaccinationInformation vaccinationInfo = new
+		 * BasicInfo_VaccinationInformation(getDriver());
+		 * vaccinationInfo.fillVaccinationForm(TestDataGenerator.randomVaccinationType()
+		 * , TestDataGenerator.randomVaccinationPhase(),
+		 * TestDataGenerator.randomNumber(5), "01012026",
+		 * TestDataGenerator.randomNotes());
+		 * logger.info("Employee Vaccination Information submitted successfully");
+		 */
 
 		// Biometrics Information
 		logger.info("Filling Employee Biometrics Information...");

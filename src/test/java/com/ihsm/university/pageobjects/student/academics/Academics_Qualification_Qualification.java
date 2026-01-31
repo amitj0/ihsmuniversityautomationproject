@@ -78,13 +78,8 @@ public class Academics_Qualification_Qualification extends BasePage {
 	private WebElement popCut;
 
 	// methods to perform actions on the web elements
-	public void qualTab() {
-		blinkElement(qualTab);
-		safeClick(qualTab);
-	}
 
 	public void qualificationTab() {
-		blinkElement(qualificationTab);
 		safeClick(qualificationTab);
 	}
 
@@ -196,7 +191,7 @@ public class Academics_Qualification_Qualification extends BasePage {
 	public Status_Status fillQualificationInformation(String qualification, String school, String certificateNo,
 			String fromDate, String issueDate, String issueDateTo, String occupation, String country, String region,
 			String city, String filePath) throws Exception {
-		qualTab();
+
 		qualificationTab();
 		qualificationField();
 		selectQualification(qualification);
@@ -212,7 +207,7 @@ public class Academics_Qualification_Qualification extends BasePage {
 		uploadQualificationDocument(filePath);
 		saveQualification();
 		okButtonSuccessPopup();
-		popCut();
+
 		return new Status_Status(driver);
 	}
 

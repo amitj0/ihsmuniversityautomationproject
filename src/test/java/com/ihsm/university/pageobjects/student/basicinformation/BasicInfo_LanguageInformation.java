@@ -37,7 +37,7 @@ public class BasicInfo_LanguageInformation extends BasePage {
 	@FindBy(xpath = "//div[@id='AlertSuccesModal' and contains(@class,'show')]//button[normalize-space()='Ok']")
 	private WebElement langTypeSaveOkBtn;
 
-	@FindBy(xpath = "//label[text()=' Level']/following-sibling::div//div[contains(@class,'ng-select-container')]")
+	@FindBy(xpath = "//label[text()=' LEVEL']/following-sibling::div//div[contains(@class,'ng-select-container')]")
 	private WebElement langLvlField;
 
 	@FindBy(xpath = "//div[contains(@class,'ng-dropdown-panel')]//div[@role='option']")

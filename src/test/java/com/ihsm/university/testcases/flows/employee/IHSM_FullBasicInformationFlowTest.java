@@ -1,5 +1,6 @@
 package com.ihsm.university.testcases.flows.employee;
 
+import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
 
 import com.ihsm.university.base.BaseClass;
@@ -14,121 +15,110 @@ import com.ihsm.university.utilities.FlowStateUtils;
 
 public class IHSM_FullBasicInformationFlowTest extends BaseClass {
 
-  
-    public void verifyFullBasicInformation() throws Exception {
+	@Test
+	public void verifyFullBasicInformation() throws Exception {
 
-        logger.info("===== STARTING FULL BASIC INFORMATION FLOW =====");
+		logger.info("===== STARTING FULL BASIC INFORMATION FLOW =====");
 
-        FlowStep lastStep = FlowStateUtils.getLastCompletedStep();
+		FlowStep lastStep = FlowStateUtils.getLastCompletedStep();
 
-        if (shouldRun(lastStep, FlowStep.ENROLLMENT2)) {
-            fillEnrollmentInfo();
-            FlowStateUtils.saveStep(FlowStep.ENROLLMENT2);
-        }
+		if (shouldRun(lastStep, FlowStep.ENROLLMENT2)) {
+			fillEnrollmentInfo();
+			FlowStateUtils.saveStep(FlowStep.ENROLLMENT2);
+			lastStep = FlowStep.ENROLLMENT2;
 
-        if (shouldRun(lastStep, FlowStep.PERSONAL2)) {
-            fillPersonalInfo();
-            FlowStateUtils.saveStep(FlowStep.PERSONAL2);
-        }
+		}
 
-        if (shouldRun(lastStep, FlowStep.GUARDIAN)) {
-            fillGuardianInfo();
-            FlowStateUtils.saveStep(FlowStep.GUARDIAN);
-        }
+		if (shouldRun(lastStep, FlowStep.PERSONAL2)) {
+			fillPersonalInfo();
+			FlowStateUtils.saveStep(FlowStep.PERSONAL2);
+			lastStep = FlowStep.PERSONAL2;
 
-        if (shouldRun(lastStep, FlowStep.LANGUAGE2)) {
-            fillLanguageInfo();
-            FlowStateUtils.saveStep(FlowStep.LANGUAGE2);
-        }
+		}
 
-        if (shouldRun(lastStep, FlowStep.VACCINATION)) {
-            fillVaccinationInfo();
-            FlowStateUtils.saveStep(FlowStep.VACCINATION);
-        }
+		if (shouldRun(lastStep, FlowStep.GUARDIAN)) {
+			fillGuardianInfo();
+			FlowStateUtils.saveStep(FlowStep.GUARDIAN);
+			lastStep = FlowStep.GUARDIAN;
 
-        if (shouldRun(lastStep, FlowStep.BIOMETRICS2)) {
-            fillBiometricsInfo();
-            FlowStateUtils.saveStep(FlowStep.BIOMETRICS2);
-        }
+		}
 
-        logger.info("===== FULL BASIC INFORMATION FLOW COMPLETED SUCCESSFULLY =====");
-    }
+		if (shouldRun(lastStep, FlowStep.LANGUAGE2)) {
+			fillLanguageInfo();
+			FlowStateUtils.saveStep(FlowStep.LANGUAGE2);
+			lastStep = FlowStep.LANGUAGE2;
 
-    /* ================== FLOW CONTROL ================== */
+		}
 
-    private boolean shouldRun(FlowStep last, FlowStep current) {
-        return last == null || last.ordinal() < current.ordinal();
-    }
+		if (shouldRun(lastStep, FlowStep.VACCINATION)) {
+			fillVaccinationInfo();
+			FlowStateUtils.saveStep(FlowStep.VACCINATION);
+			lastStep = FlowStep.VACCINATION;
 
-    /* ================== STEP METHODS ================== */
+		}
 
-    private void fillEnrollmentInfo() {
-        logger.info("Filling Employee Enrollment Information...");
+		if (shouldRun(lastStep, FlowStep.BIOMETRICS2)) {
+			fillBiometricsInfo();
+			FlowStateUtils.saveStep(FlowStep.BIOMETRICS2);
+			lastStep = FlowStep.BIOMETRICS2;
 
-        new BasicInfo_EnrollnmentInformation(getDriver())
-                .fillEnrollnmentInformationForm(
-                        TestDataGenerator.generateRandomRussianFirstName(),
-                        TestDataGenerator.generateRandomFirstName(),
-                        TestDataGenerator.generateRandomGender(),
-                        TestDataGenerator.randomNumber(5),
-                        TestDataGenerator.randomEmail(),
-                        TestDataGenerator.randomCountry());
-    }
+		}
 
-    private void fillPersonalInfo() {
-        logger.info("Filling Employee Personal Information...");
+		logger.info("===== FULL BASIC INFORMATION FLOW COMPLETED SUCCESSFULLY =====");
+	}
 
-        new BasicInfo_PersonalInformation(getDriver())
-                .fillPersonalInformationForm(
-                        TestDataGenerator.randomString(4),
-                        TestDataGenerator.randomString(3),
-                        TestDataGenerator.randomNumber(4),
-                        TestDataGenerator.randomNumber(5),
-                        "01012000",
-                        TestDataGenerator.generateRandomGender(),
-                        TestDataGenerator.randomMaritalStatus(),
-                        "01012026",
-                        "91",
-                        TestDataGenerator.randomPhone(),
-                        TestDataGenerator.randomIndianAddress(),
-                        TestDataGenerator.randomIndianAddress());
-    }
+	/* ================== FLOW CONTROL ================== */
 
-    private void fillGuardianInfo() {
-        logger.info("Filling Employee Guardian Information...");
+	private boolean shouldRun(FlowStep last, FlowStep current) {
+		return last == null || last.ordinal() < current.ordinal();
+	}
 
-        new BasicInfo_GuardianInformation(getDriver())
-                .fillGuardianInformationForm(
-                        TestDataGenerator.randomGuardian(),
-                        TestDataGenerator.randomGuardianName(),
-                        "01011970",
-                        "No");
-    }
+	/* ================== STEP METHODS ================== */
 
-    private void fillLanguageInfo() {
-        logger.info("Filling Employee Language Information...");
+	private void fillEnrollmentInfo() {
+		logger.info("Filling Employee Enrollment Information...");
 
-        new BasicInfo_LanguageInformation(getDriver())
-                .fillLanguageInformation("сертификат Duolingo", "B2");
-    }
+		new BasicInfo_EnrollnmentInformation(getDriver()).fillEnrollnmentInformationForm(
+				TestDataGenerator.generateRandomRussianFirstName(), TestDataGenerator.generateRandomFirstName(),
+				TestDataGenerator.generateRandomGender(), TestDataGenerator.randomNumber(5),
+				TestDataGenerator.randomEmail(), TestDataGenerator.randomCountry());
+	}
 
-    private void fillVaccinationInfo() {
-        logger.info("Filling Employee Vaccination Information...");
+	private void fillPersonalInfo() {
+		logger.info("Filling Employee Personal Information...");
 
-        new BasicInfo_VaccinationInformation(getDriver())
-                .fillVaccinationForm(
-                        TestDataGenerator.randomVaccinationType(),
-                        TestDataGenerator.randomVaccinationPhase(),
-                        TestDataGenerator.randomNumber(5),
-                        "01012026",
-                        TestDataGenerator.randomNotes());
-    }
+		new BasicInfo_PersonalInformation(getDriver()).fillPersonalInformationForm(TestDataGenerator.randomString(4),
+				TestDataGenerator.randomString(3), TestDataGenerator.randomNumber(4), TestDataGenerator.randomNumber(5),
+				"01012000", TestDataGenerator.generateRandomGender(), TestDataGenerator.randomMaritalStatus(),
+				"01012026", "91", TestDataGenerator.randomPhone(), TestDataGenerator.randomIndianAddress(),
+				TestDataGenerator.randomIndianAddress());
+	}
 
-    private void fillBiometricsInfo() throws Exception {
-        logger.info("Filling Employee Biometrics Information...");
+	private void fillGuardianInfo() {
+		logger.info("Filling Employee Guardian Information...");
 
-        new BasicInfo_BiometricsInformation(getDriver())
-                .fillBiometricsInfo(
-                        TestDataGenerator.randomEmployeePhotoFile());
-    }
+		new BasicInfo_GuardianInformation(getDriver()).fillGuardianInformationForm(TestDataGenerator.randomGuardian(),
+				TestDataGenerator.randomGuardianName(), "01011970", "No");
+	}
+
+	private void fillLanguageInfo() {
+		logger.info("Filling Employee Language Information...");
+
+		new BasicInfo_LanguageInformation(getDriver()).fillLanguageInformation("сертификат Duolingo", "B2");
+	}
+
+	private void fillVaccinationInfo() {
+		logger.info("Filling Employee Vaccination Information...");
+
+		new BasicInfo_VaccinationInformation(getDriver()).fillVaccinationForm(TestDataGenerator.randomVaccinationType(),
+				TestDataGenerator.randomVaccinationPhase(), TestDataGenerator.randomNumber(5), "01012026",
+				TestDataGenerator.randomNotes());
+	}
+
+	private void fillBiometricsInfo() throws Exception {
+		logger.info("Filling Employee Biometrics Information...");
+
+		new BasicInfo_BiometricsInformation(getDriver())
+				.fillBiometricsInfo(TestDataGenerator.randomEmployeePhotoFile());
+	}
 }

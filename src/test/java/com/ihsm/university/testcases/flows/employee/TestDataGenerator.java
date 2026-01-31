@@ -243,7 +243,7 @@ public class TestDataGenerator {
 
 	public static String randomPatentType() {
 		String[] types = { "Utility Patent", "Design Patent", "Plant Patent", "Provisional Patent",
-				"International Patent (PCT)" };
+				"International Patent" };
 		return types[(int) (Math.random() * types.length)];
 	}
 
@@ -263,7 +263,7 @@ public class TestDataGenerator {
 	}
 
 	public static String randomDegreeLevel() {
-		String[] levels = { "Diploma", "Bachelor", "Master", "Doctorate (PhD)", "Post Doctorate" };
+		String[] levels = { "Diploma", "Bachelor", "Master", "Doctorate", "Post Doctorate" };
 		return levels[(int) (Math.random() * levels.length)];
 	}
 

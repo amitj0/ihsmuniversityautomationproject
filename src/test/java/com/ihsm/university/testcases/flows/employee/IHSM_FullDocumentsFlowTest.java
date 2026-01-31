@@ -10,7 +10,7 @@ import com.ihsm.university.utilities.FlowStateUtils;
 
 public class IHSM_FullDocumentsFlowTest extends BaseClass {
 
-	
+	@Test
 	public void verifyFullDocumentsInformation() throws Exception {
 
 		logger.info("===== STARTING FULL DOCUMENTS INFORMATION FLOW =====");
@@ -20,11 +20,15 @@ public class IHSM_FullDocumentsFlowTest extends BaseClass {
 		if (shouldRun(lastStep, FlowStep.DOCUMENTS)) {
 			fillDocumentsInfo();
 			FlowStateUtils.saveStep(FlowStep.DOCUMENTS);
+			lastStep = FlowStep.DOCUMENTS;
+
 		}
 
 		if (shouldRun(lastStep, FlowStep.PASSPORT2)) {
 			fillPassportInfo();
 			FlowStateUtils.saveStep(FlowStep.PASSPORT2);
+			lastStep = FlowStep.PASSPORT2;
+
 		}
 
 		logger.info("===== FULL DOCUMENTS INFORMATION FLOW COMPLETED SUCCESSFULLY =====");

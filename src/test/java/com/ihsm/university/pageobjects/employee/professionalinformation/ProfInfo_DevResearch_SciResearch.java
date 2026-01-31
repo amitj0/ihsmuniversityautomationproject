@@ -63,7 +63,7 @@ public class ProfInfo_DevResearch_SciResearch extends BasePage {
 	@FindBy(name = "strPublicationUrl")
 	private WebElement publicationURLField;
 
-	@FindBy(xpath = "//div[@id='DevelopmentResearchID']//label[contains(normalize-space(),'Name Of Magazine')]//following-sibling::div//input[@name='FULLNAME']")
+	@FindBy(xpath = "//div[@id='DevelopmentResearchID']//label[contains(normalize-space(),'Name Of Magzine')]//following-sibling::div//input[@name='FULLNAME']")
 	private WebElement nameOfMagazineField;
 
 	@FindBy(xpath = "//div[@id='DevelopmentResearchID']//label[contains(normalize-space(),'Name Of Article')]//following-sibling::div//input[@name='FULLNAME']")

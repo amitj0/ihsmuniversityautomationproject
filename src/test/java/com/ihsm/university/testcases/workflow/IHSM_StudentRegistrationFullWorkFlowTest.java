@@ -20,24 +20,28 @@ public class IHSM_StudentRegistrationFullWorkFlowTest extends BaseClass {
         if (shouldRun(lastStep, FlowStep.BASIC_INFORMATION)) {
             new IHSM_FullBasicInformationFlow(getDriver()).execute(student);
             FlowStateUtils.saveStep(FlowStep.BASIC_INFORMATION);
+            lastStep = FlowStep.BASIC_INFORMATION;
             logger.info("Basic Information filled successfully");
         }
 
         if (shouldRun(lastStep, FlowStep.DOCUMENTS)) {
             new IHSM_FullDocumentsFlow(getDriver()).execute(student);
             FlowStateUtils.saveStep(FlowStep.DOCUMENTS);
+            lastStep = FlowStep.DOCUMENTS;
             logger.info("Documents Information filled successfully");
         }
 
         if (shouldRun(lastStep, FlowStep.ACADEMICS)) {
             new IHSM_FullAcademicsFlow(getDriver()).execute(student);
             FlowStateUtils.saveStep(FlowStep.ACADEMICS);
+            lastStep = FlowStep.ACADEMICS;
             logger.info("Academics Information filled successfully");
         }
 
         if (shouldRun(lastStep, FlowStep.STATUS)) {
             new IHSM_FullStatusFlow(getDriver()).execute(student);
             FlowStateUtils.saveStep(FlowStep.STATUS);
+            lastStep = FlowStep.STATUS;
             logger.info("Status Information filled successfully");
         }
 

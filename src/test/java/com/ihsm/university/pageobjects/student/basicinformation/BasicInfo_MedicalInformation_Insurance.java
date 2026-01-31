@@ -21,7 +21,7 @@ public class BasicInfo_MedicalInformation_Insurance extends BasePage {
 	@FindBy(xpath = "//a[@href='#tab27']")
 	private WebElement insuranceTab;
 
-	@FindBy(xpath = "//div[@id='tab27']//input[@placeholder='Date From']")
+	@FindBy(xpath = "//div[@id='tab27']//input[@placeholder='DATE_FROM']")
 	private WebElement insuranceDateFromField;
 
 	@FindBy(xpath = "//div[@id='tab27']//input[@placeholder='Date To']")

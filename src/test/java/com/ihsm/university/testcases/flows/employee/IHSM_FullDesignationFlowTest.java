@@ -10,65 +10,51 @@ import com.ihsm.university.utilities.FlowStateUtils;
 
 public class IHSM_FullDesignationFlowTest extends BaseClass {
 
-   
-    public void verifyFullDesignationInformation() throws Exception {
+	@Test
+	public void verifyFullDesignationInformation() throws Exception {
 
-        logger.info("===== STARTING FULL DESIGNATION INFORMATION FLOW =====");
+		logger.info("===== STARTING FULL DESIGNATION INFORMATION FLOW =====");
 
-        FlowStep lastStep = FlowStateUtils.getLastCompletedStep();
+		FlowStep lastStep = FlowStateUtils.getLastCompletedStep();
 
-        if (shouldRun(lastStep, FlowStep.EMP_RIGHTS)) {
-            fillEmploymentRights();
-            FlowStateUtils.saveStep(FlowStep.EMP_RIGHTS);
-        }
+		if (shouldRun(lastStep, FlowStep.EMP_RIGHTS)) {
+			fillEmploymentRights();
+			FlowStateUtils.saveStep(FlowStep.EMP_RIGHTS);
+			lastStep = FlowStep.EMP_RIGHTS;
 
-        if (shouldRun(lastStep, FlowStep.EMP_POSITION)) {
-            fillEmployeePosition();
-            FlowStateUtils.saveStep(FlowStep.EMP_POSITION);
-        }
+		}
 
-        logger.info("===== FULL DESIGNATION INFORMATION FLOW COMPLETED SUCCESSFULLY =====");
-    }
+		if (shouldRun(lastStep, FlowStep.EMP_POSITION)) {
+			fillEmployeePosition();
+			FlowStateUtils.saveStep(FlowStep.EMP_POSITION);
+			lastStep = FlowStep.EMP_POSITION;
 
-    /* ================= FLOW CONTROL ================= */
+		}
 
-    private boolean shouldRun(FlowStep last, FlowStep current) {
-        return last == null || last.ordinal() < current.ordinal();
-    }
+		logger.info("===== FULL DESIGNATION INFORMATION FLOW COMPLETED SUCCESSFULLY =====");
+	}
 
-    /* ================= STEP METHODS ================= */
+	/* ================= FLOW CONTROL ================= */
 
-    private void fillEmploymentRights() {
-        logger.info("Filling Employee Rights Information...");
+	private boolean shouldRun(FlowStep last, FlowStep current) {
+		return last == null || last.ordinal() < current.ordinal();
+	}
 
-        new Designation_EmploymentRights(getDriver())
-                .fillEmploymentRightsForm(
-                        "Part Time",
-                        "0.25",
-                        "Transfer",
-                        TestDataGenerator.randomNumber(5),
-                        "01012026",
-                        "01012027",
-                        "Academic",
-                        "Rector",
-                        "Nursuing / PG / MBBS",
-                        "2",
-                        "01012026",
-                        TestDataGenerator.randomNumber(3),
-                        "200000",
-                        TestDataGenerator.randomNotes());
-    }
+	/* ================= STEP METHODS ================= */
 
-    private void fillEmployeePosition() {
-        logger.info("Filling Employee Position Information...");
+	private void fillEmploymentRights() {
+		logger.info("Filling Employee Rights Information...");
 
-        new Designation_Position(getDriver())
-                .fillPositionInOtherOrgForm(
-                        "Experience in IHSM",
-                        "01/01/2026",
-                        "01/01/2027",
-                        TestDataGenerator.randomUniversity(),
-                        TestDataGenerator.randomUniversityPosition(),
-                        TestDataGenerator.randomNotes());
-    }
+		new Designation_EmploymentRights(getDriver()).fillEmploymentRightsForm("Part Time", "0.25", "Transfer",
+				TestDataGenerator.randomNumber(5), "01012026", "01012027", "Academic", "Rector", "Nursuing / PG / MBBS",
+				"2", "01012026", TestDataGenerator.randomNumber(3), "200000", TestDataGenerator.randomNotes());
+	}
+
+	private void fillEmployeePosition() {
+		logger.info("Filling Employee Position Information...");
+
+		new Designation_Position(getDriver()).fillPositionInOtherOrgForm("Experience in IHSM", "01/01/2026",
+				"01/01/2027", TestDataGenerator.randomUniversity(), TestDataGenerator.randomUniversityPosition(),
+				TestDataGenerator.randomNotes());
+	}
 }

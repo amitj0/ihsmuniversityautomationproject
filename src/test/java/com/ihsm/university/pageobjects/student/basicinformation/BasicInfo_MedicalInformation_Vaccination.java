@@ -40,6 +40,14 @@ public class BasicInfo_MedicalInformation_Vaccination extends BasePage {
 	@FindBy(xpath = "//div[@id='AlertSuccesModal' and contains(@class,'show')]//button[normalize-space()='Ok']")
 	private WebElement okVaccBtn;
 
+	// vaccination dose
+
+	@FindBy(xpath = "//div[@id='MadicalInfoId']//ng-select[@name='GUARDIAN']")
+	private WebElement vaccDoseField;
+
+	@FindBy(xpath = "//div[contains(@class,'ng-dropdown-panel')]//div[@role='option']")
+	private List<WebElement> vaccDoseFieldList;
+
 	@FindBy(xpath = "(//div[@id='MadicalInfoId']//label[contains(normalize-space(),'Dose')]/following::span[contains(@class,'addvalue')])[1]")
 	private WebElement addDosePlusBtn;
 
@@ -51,12 +59,6 @@ public class BasicInfo_MedicalInformation_Vaccination extends BasePage {
 
 	@FindBy(xpath = "//div[@id='AlertSuccesModal' and contains(@class,'show')]//button[normalize-space()='Ok']")
 	private WebElement okDoseBtn;
-
-	@FindBy(xpath = "//div[@id='MadicalInfoId']//ng-select[@name='GUARDIAN']")
-	private WebElement vaccDoseField;
-
-	@FindBy(xpath = "//div[@id='VaccinationModelID']//div[@role='option']")
-	private List<WebElement> vaccDoseFieldList;
 
 	@FindBy(xpath = "//div[@id='tab25']//input[@type='date' and @name='DATE']")
 	private WebElement dobField;
@@ -103,10 +105,10 @@ public class BasicInfo_MedicalInformation_Vaccination extends BasePage {
 
 		if (!found) {
 			safeClick(addVaccPlusBtn);
-			
+
 			safeClick(vaccInputField);
 			vaccInputField.sendKeys(vaccType);
-			
+
 			blinkElement(saveVaccBtn);
 			safeClick(saveVaccBtn);
 			safeClick(okVaccBtn);
@@ -172,7 +174,7 @@ public class BasicInfo_MedicalInformation_Vaccination extends BasePage {
 		blinkElement(okBtn);
 		handleModalOk(okBtn);
 	}
-	
+
 	public boolean isVaccinationInfoSavedSuccessfully() {
 		return okBtn.isDisplayed();
 	}

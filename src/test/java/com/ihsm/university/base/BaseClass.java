@@ -24,12 +24,13 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 
 public class BaseClass {
 
-//	protected static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 	protected static final ThreadLocal<WebDriver> driver = ThreadLocal.withInitial(() -> null);
 
 	private static final ThreadLocal<WebDriverWait> wait = new ThreadLocal<>();
@@ -104,6 +105,11 @@ public class BaseClass {
 				throw new RuntimeException("WebDriver is NULL after initialization");
 			}
 
+			// Set timeouts for faster execution
+			getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(500));
+			getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
+			getDriver().manage().timeouts().scriptTimeout(Duration.ofSeconds(30));
+
 			getDriver().manage().deleteAllCookies();
 			getDriver().get(prop.getProperty("url"));
 			logger.info("Navigated to URL: " + prop.getProperty("url"));
@@ -128,9 +134,28 @@ public class BaseClass {
 			WebDriverManager.chromedriver().setup();
 
 			ChromeOptions chrome = new ChromeOptions();
-			chrome.addArguments("--disable-infobars", "--disable-blink-features=AutomationControlled");
-			chrome.setUnhandledPromptBehaviour(UnexpectedAlertBehaviour.IGNORE);
-			chrome.setPageLoadStrategy(PageLoadStrategy.NORMAL);
+			chrome.addArguments("--disable-infobars");
+			chrome.addArguments("--disable-blink-features=AutomationControlled");
+			chrome.addArguments("--disable-notifications");
+			chrome.addArguments("--disable-features=MediaRouter");
+			chrome.addArguments("--block-new-web-contents");
+			chrome.addArguments("--disable-save-password-bubble");
+			chrome.setExperimentalOption("excludeSwitches", new String[] { "enable-automation" });
+			chrome.setExperimentalOption("useAutomationExtension", false);
+
+			// Set preferences to block the permission popup
+			Map<String, Object> prefs = new HashMap<>();
+			prefs.put("profile.default_content_setting_values.media_stream", 2);
+			prefs.put("profile.default_content_setting_values.notifications", 2);
+			prefs.put("profile.default_content_setting_values.local_discovery", 2);
+			prefs.put("profile.default_content_setting_values.geolocation", 2);
+			prefs.put("profile.default_content_setting_values.midi_sysex", 2);
+			prefs.put("credentials_enable_service", false);
+			prefs.put("profile.password_manager_enabled", false);
+			chrome.setExperimentalOption("prefs", prefs);
+
+			chrome.setUnhandledPromptBehaviour(UnexpectedAlertBehaviour.DISMISS);
+			chrome.setPageLoadStrategy(PageLoadStrategy.EAGER); // Changed from NORMAL for faster page loads
 
 			LoggingPreferences logPrefs = new LoggingPreferences();
 			logPrefs.enable(LogType.BROWSER, Level.ALL);
@@ -166,6 +191,29 @@ public class BaseClass {
 
 		if (browser.equalsIgnoreCase("chrome")) {
 			ChromeOptions options = new ChromeOptions();
+
+			// Disable automation detection and permissions
+			options.addArguments("--disable-features=MediaRouter");
+			options.addArguments("--disable-blink-features=AutomationControlled");
+			options.addArguments("--disable-notifications");
+			options.addArguments("--block-new-web-contents");
+			options.addArguments("--disable-save-password-bubble");
+			options.setExperimentalOption("excludeSwitches", new String[] { "enable-automation" });
+			options.setExperimentalOption("useAutomationExtension", false);
+
+			// Set preferences to block permission popups
+			Map<String, Object> prefs = new HashMap<>();
+			prefs.put("profile.default_content_setting_values.media_stream", 2);
+			prefs.put("profile.default_content_setting_values.notifications", 2);
+			prefs.put("profile.default_content_setting_values.local_discovery", 2);
+			prefs.put("profile.default_content_setting_values.geolocation", 2);
+			prefs.put("profile.default_content_setting_values.midi_sysex", 2);
+			prefs.put("credentials_enable_service", false);
+			prefs.put("profile.password_manager_enabled", false);
+			options.setExperimentalOption("prefs", prefs);
+
+			options.setPageLoadStrategy(PageLoadStrategy.EAGER); // Changed from NORMAL
+
 			if (headless) {
 				options.addArguments("--headless=new", "--window-size=1920,1080", "--disable-gpu", "--no-sandbox",
 						"--disable-dev-shm-usage");

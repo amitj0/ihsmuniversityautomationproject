@@ -1,6 +1,8 @@
 package com.ihsm.university.testcases.flows.student;
 
 import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
+
 import com.ihsm.university.base.BaseClass;
 import com.ihsm.university.pageobjects.student.basicinformation.*;
 
@@ -12,7 +14,9 @@ public class IHSM_FullBasicInformationFlow extends BaseClass {
 		this.driver = driver;
 	}
 
-	public void execute(StudentFullRegistrationDataVariables student) {
+	public static String studentEnrollmentId;
+
+	public void execute(StudentFullRegistrationDataVariables student) throws InterruptedException {
 		logger.info("===== STARTING FULL BASIC INFORMATION FLOW =====");
 
 		// ---------------- Enrollment Information ----------------
@@ -20,12 +24,21 @@ public class IHSM_FullBasicInformationFlow extends BaseClass {
 		enrollInfo.fillEnrollmentInformation(student.term, student.course, student.year, student.semester, student.pin,
 				student.firstName, student.middleName, student.lastName, student.gender, student.dob, student.country,
 				student.state, student.mobile, student.email, student.nationality);
+		studentEnrollmentId = enrollInfo.getStudentEnrollmentId();
+
+		if (studentEnrollmentId == null || studentEnrollmentId.isEmpty()) {
+			throw new RuntimeException("Student Enrollment ID not generated!");
+		}
+
+		logger.info("Generated Enrollment ID = " + studentEnrollmentId);
 		logger.info("Enrollment Information submitted successfully");
+		logger.info("Generated Enrollment ID = " + studentEnrollmentId);
 
 		// ---------------- Personal Information ----------------
 		BasicInfo_PersonalInformation personalInfo = new BasicInfo_PersonalInformation(getDriver());
 		personalInfo.fillPersonalInformationForm(student.firstName2, student.lastName2, student.city,
 				student.maritalStatus, student.country2);
+		
 		logger.info("Personal Information submitted successfully");
 
 		// ---------------- Biometrics ----------------

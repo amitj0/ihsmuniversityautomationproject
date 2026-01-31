@@ -6,6 +6,7 @@ import java.util.List;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.ihsm.university.base.BasePage;
 
@@ -56,7 +57,7 @@ public class BasicInfo_EnrollnmentInformation extends BasePage {
 	@FindBy(xpath = "//div[@id='EnrollmentInformationId']//input[@name='FIRSTNAME']")
 	private WebElement firstNameField;
 
-	@FindBy(xpath = "//div[@id='EnrollmentInformationId']//input[@placeholder='Middle Name']")
+	@FindBy(xpath = "//div[@id='EnrollmentInformationId']//input[@placeholder='MIDDLE_NAME']")
 	private WebElement middleNameField;
 
 	@FindBy(xpath = "//div[@id='EnrollmentInformationId']//input[@name='LASTNAME']")
@@ -98,14 +99,27 @@ public class BasicInfo_EnrollnmentInformation extends BasePage {
 	@FindBy(xpath = "//div[@id='AlertSuccesModal' and contains(@class,'show')]//button[normalize-space()='Ok']")
 	private WebElement alertOkBtn;
 
+	@FindBy(xpath = "//div[@class='studentid']")
+	private WebElement studentEnrollmentId;
+
+	public String getStudentEnrollmentId() throws InterruptedException {
+
+		Thread.sleep(3000);
+
+		String enrollmentId = studentEnrollmentId.getText().trim();
+
+		System.out.println("Captured Student Enrollment ID = " + enrollmentId);
+
+		return enrollmentId;
+	}
+
 	// methods to perform the action
 	public void studentMenuItems() {
-		blinkElement(studentMenuItems);
+		wait.until(ExpectedConditions.invisibilityOf(studentMenuItems));
 		safeClick(studentMenuItems);
 	}
 
 	public void addNewStudent() {
-		blinkElement(addNewStudent);
 		safeClick(addNewStudent);
 	}
 
@@ -270,7 +284,7 @@ public class BasicInfo_EnrollnmentInformation extends BasePage {
 		blinkElement(alertOkBtn);
 		handleModalOk(alertOkBtn);
 	}
-	
+
 	public boolean isEnrollmentInfoSavedSuccessfully() {
 		return alertOkBtn.isDisplayed();
 	}
@@ -300,7 +314,7 @@ public class BasicInfo_EnrollnmentInformation extends BasePage {
 		fillEmail(email);
 		fillAddress(address);
 		saveBtn();
-		alertOkBtn();
+//		alertOkBtn(); 
 
 		return new BasicInfo_EnrollnmentInformation(driver);
 

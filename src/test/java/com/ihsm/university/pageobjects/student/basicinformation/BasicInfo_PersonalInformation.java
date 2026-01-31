@@ -1,11 +1,14 @@
 package com.ihsm.university.pageobjects.student.basicinformation;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.List;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.ihsm.university.base.BasePage;
 
@@ -127,9 +130,17 @@ public class BasicInfo_PersonalInformation extends BasePage {
 		blinkElement(alertOkBtn);
 		handleModalOk(alertOkBtn);
 	}
-	
+
 	public boolean isPersonalInfoSavedSuccessfully() {
-		return alertOkBtn.isDisplayed();
+		try {
+			// Wait for the success modal OK button to appear
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+			wait.until(ExpectedConditions.visibilityOf(alertOkBtn));
+			return alertOkBtn.isDisplayed();
+		} catch (Exception e) {
+			logger.error("Success modal did not appear", e);
+			return false;
+		}
 	}
 
 	// fill the personal information form

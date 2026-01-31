@@ -1,8 +1,13 @@
 package com.ihsm.university.common;
 
+import java.time.Duration;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import com.ihsm.university.base.BasePage;
@@ -17,9 +22,9 @@ public class LoginPage extends BasePage {
 
 	// locate the web elements
 
-	@FindBy(name = "txtEmail")
+	@FindBy(xpath = "//input[@name='txtEmail']")
 	private WebElement username;
-	@FindBy(name = "txtPassword")
+	@FindBy(xpath = "//input[@name='txtPassword']")
 	private WebElement password;
 	@FindBy(xpath = "//button[@value='Log In']")
 	private WebElement loginBtn;
@@ -39,12 +44,11 @@ public class LoginPage extends BasePage {
 	}
 
 	// login method
-	public ChooseFacultyPage login(String name, String pass) {
+	public void login(String name, String pass) {
 		enterUsrName(name);
 		enterPassword(pass);
 		clickButton();
 
-		return new ChooseFacultyPage(driver);
 	}
 
 }
